@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
+import mutation_dataset
 
 
 # load in training imgs, resize them with torchvision.transforms.Resize()
@@ -14,8 +15,8 @@ from torch.utils.data import Dataset, DataLoader, ConcatDataset
 from PIL import Image
 import torchvision
 
-train_dir = 'model-data/train'
-test_dir = 'model-data/test'
+train_dir = './model-data/train'
+test_dir = './model-data/test'
 train_files = os.listdir(train_dir)
 test_files = os.listdir(test_dir)
 
@@ -27,27 +28,20 @@ def main():
 
     data_transform = transforms.Compose([transforms.Resize((64, 64))])
 
-    cat_files = [tf for tf in train_files if 'cat' in tf]
-    cat_train_files = cat_files[:10000]
-    cat_test_files = cat_files[10000:]
-    dog_files = [tf for tf in train_files if 'dog' in tf]
-    dog_train_files = dog_files[:10000]
-    dog_test_files = dog_files[10000:]
+    # turn the training mutation data into a "Dataset" struct for training.
+    train_dataset = MutationDataset(train_files, train_dir)
 
-    cats_train = CatDogDataset(cat_train_files, train_dir, transform=data_transform)
-    dogs_train = CatDogDataset(dog_train_files, train_dir, transform=data_transform)
+    # setup training DataLoader.
+    trainloader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
 
-    catdogs_train = ConcatDataset([cats_train, dogs_train])
+    # turn the training mutation data into a "Dataset" struct for training.
+    test_dataset = MutationDataset(test_files, test_dir)
 
-    trainloader = DataLoader(catdogs_train, batch_size=64, shuffle=True, num_workers=4)
+    # setup test DataLoader.
+    testloader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
 
-    cats_test = CatDogDataset(cat_test_files, train_dir, transform=data_transform)
-    dogs_test = CatDogDataset(dog_test_files, train_dir, transform=data_transform)
-
-    catdogs_test = ConcatDataset([cats_test, dogs_test])
-
-    testloader = DataLoader(catdogs_test, batch_size=64, shuffle=True, num_workers=4)
-
+    # Train the model + test it afterwards.  If the model has the best specs seen so far, save it to disk.
+    # TODO:  Do this.
     net = Net()
     net.to(device)
 
@@ -177,38 +171,6 @@ def train(trainloader, testloader, net, criterion, optimizer):
     plt.title("Model Accuracy per Epoch")
     plt.savefig("chart.png")
     plt.show()
-
-
-class CatDogDataset(Dataset):
-    def __init__(self, file_list, dir, mode='train', transform=None):
-        self.file_list = file_list
-        self.dir = dir
-        self.mode = mode
-        self.transform = transform
-        if self.mode == 'train':
-            if 'dog' in self.file_list[0]:
-                self.label = 1
-            else:
-                self.label = 0
-
-        # preprocess imgs for significant speedup
-        self.imgs = []
-        for file in file_list:
-            img = Image.open(os.path.join(self.dir, file))
-            if self.transform:
-                img = self.transform(img)
-            img = np.array(img)
-            img = img.astype('float32')
-            if self.mode == 'train':
-                self.imgs.append((img, self.label))
-            else:
-                self.imgs.append((img, file))
-
-    def __len__(self):
-        return len(self.file_list)
-
-    def __getitem__(self, idx):
-        return self.imgs[idx]
 
 
 if __name__ == "__main__":
