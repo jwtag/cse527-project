@@ -1,32 +1,26 @@
 import torch
-import torchvision.transforms as transforms
 import os
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
-import numpy as np
-import mutation_dataset
 
-
-# load in training imgs, resize them with torchvision.transforms.Resize()
-# take training imgs, put into separate datasets based upon img name
-from torch.utils.data import Dataset, DataLoader, ConcatDataset
-from PIL import Image
-import torchvision
+from torch.utils.data import DataLoader
+from mutation_dataset import MutationDataset
 
 train_dir = './model-data/train'
 test_dir = './model-data/test'
 train_files = os.listdir(train_dir)
 test_files = os.listdir(test_dir)
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = "mps" if torch.backends.mps.is_available() else "cpu"
 
 def main():
     learning_rate = 0.00005
     momentum = 0.9
 
-    data_transform = transforms.Compose([transforms.Resize((64, 64))])
+    print (train_dir)
+    print (train_files)
 
     # turn the training mutation data into a "Dataset" struct for training.
     train_dataset = MutationDataset(train_files, train_dir)
@@ -129,9 +123,17 @@ def train(trainloader, testloader, net, criterion, optimizer):
         print("Epoch " + str(epoch + 1))
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
-            # get the inputs; data is a list of [inputs, labels]
-            inputs, labels = data[0].to(device), data[1].to(device)
+            print(data[0])
+            print(data[1])
 
+            # get the inputs; data is a list of [acid values array, treatment]
+            # these should "just work" with tensors, which is good
+
+            # convert data[0] (inputs) to torch-compatible format
+            data = torch.tensor(data)
+
+            inputs = data[0].to(device)
+            labels = data[1].to(device)
 
             # zero the parameter gradients
             optimizer.zero_grad()

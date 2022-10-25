@@ -1,5 +1,5 @@
 CHROM,POS,TYPE,REF,ALT,EVIDENCE,FTYPE,STRAND,NT_POS,AA_POS,EFFECT,LOCUS_TAG,GENE,PRODUCT
-NC_003228,530487,ins,G,GT,GT:223 G:1,CDS,-,98/2636,33/877,frameshift_variant c.98dupA p.Asn33fs,BF9343_RS02095,,outer membrane protein assembly factor BamA
+NC_003228,530417,ins,G,GT,GT:223 G:1,CDS,-,98/2636,33/877,frameshift_variant c.98dupA p.Asn33fs,BF9343_RS02095,,outer membrane protein assembly factor BamA
 NC_003228,683862,snp,G,A,A:237 G:0,CDS,+,421/1569,141/522,missense_variant c.421G>A p.Ala141Thr,BF9343_RS02670,,RagB/SusD family nutrient uptake outer membrane protein
 NC_003228,1377058,snp,G,T,T:137 G:0,CDS,+,975/1908,325/635,missense_variant c.975G>T p.Arg325Ser,BF9343_RS05190,,site-specific DNA-methyltransferase
 NC_003228,1660705,snp,C,T,T:195 C:0,CDS,-,1204/1290,402/429,missense_variant c.1204G>A p.Glu402Lys,BF9343_RS06440,,DcaP family trimeric outer membrane transporter
