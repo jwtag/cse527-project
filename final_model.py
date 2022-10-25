@@ -123,8 +123,6 @@ def train(trainloader, testloader, net, criterion, optimizer):
         print("Epoch " + str(epoch + 1))
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
-            print(data[0])
-            print(data[1])
 
             # get the inputs; data is a list of [acid values array, treatment]
             # these should "just work" with tensors, which is good
