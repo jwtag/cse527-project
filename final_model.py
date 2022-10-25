@@ -31,8 +31,8 @@ def main():
     # turn the training mutation data into a "Dataset" struct for training.
     test_dataset = MutationDataset(test_files, test_dir)
 
-    # setup test DataLoader.
-    testloader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
+    # setup test DataLoader.  TODO:  figure out why it's having weird formatting errors with copied file
+    # testloader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
 
     # Train the model + test it afterwards.  If the model has the best specs seen so far, save it to disk.
     # TODO:  Do this.
@@ -43,7 +43,7 @@ def main():
     criterion.to(device)
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
-    train(trainloader, testloader, net, criterion, optimizer)
+    train(trainloader, trainloader, net, criterion, optimizer)# TODO: make use the testloader once formatting issues are resolved:  trainloader, testloader, net, criterion, optimizer)
 
 
 # Our neural network definition
@@ -69,7 +69,7 @@ class Net(nn.Module):
 
     def forward(self, x):
         # print('-a', self.conv2_output_size)
-        x = x.transpose(1, 3)
+        x = x.transpose(1, 1)
 
         # convert x from numpy to cuda
         x = x.to(device)
@@ -124,12 +124,8 @@ def train(trainloader, testloader, net, criterion, optimizer):
         running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
 
-            # get the inputs; data is a list of [acid values array, treatment]
+            # get the inputs; "data" is just an object containing a list of [acid values array, treatment label]
             # these should "just work" with tensors, which is good
-
-            # convert data[0] (inputs) to torch-compatible format
-            data = torch.tensor(data)
-
             inputs = data[0].to(device)
             labels = data[1].to(device)
 

@@ -1,14 +1,16 @@
 # Represents a mutation dataset.
 # Takes in a CSV of labelled mutations, then stores them.
-
 import csv
+import torch
+import numpy as np
 
 from torch.utils.data import Dataset, DataLoader, ConcatDataset
 
 class MutationDataset(Dataset):
     def __init__(self, mutations_csv_files, csv_file_dir):
-        # create dataset dict
+        # create dataset dict + LabelEncoder
         self.mutations = []
+        self.label_encoder = LabelEncoder()
 
         # read in the csv
         for filename in mutations_csv_files:
@@ -26,12 +28,15 @@ class MutationDataset(Dataset):
 
                 # get the list w/o the label + the label
                 mutation_csv_row_without_label = mutation_csv_row[1:]
-                mutation_csv_row_label = mutation_csv_row[1]
+                mutation_csv_row_label = self.label_encoder.encode_label(mutation_csv_row[1])
 
                 # turn row into array of ints so it can be processed by pytorch
                 mutation_csv_row_as_ints = []
                 for acid_mutation in mutation_csv_row_without_label:
                     mutation_csv_row_as_ints.append(get_acid_mutation_value(acid_mutation))
+
+                # reformat the python data list so it works with the tensors.
+                mutation_csv_row_as_ints = torch.from_numpy(np.asarray(mutation_csv_row_as_ints))
 
                 # store the mutation information + the label in the "mutations" dict
                 self.mutations.append((mutation_csv_row_as_ints, mutation_csv_row_label))
@@ -41,6 +46,9 @@ class MutationDataset(Dataset):
 
     def __getitem__(self, idx):
         return self.mutations[idx]
+
+    def decode_label(self, encoded_label):
+        return self.label_encoder.decode(encoded_label)
 
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
@@ -71,3 +79,23 @@ def get_acid_mutation_value(acid_mutation_str):
 
     # otherwise, return the char value of the acid letter.
     return ord(acid_mutation_str[0])
+
+
+# class used to encode/decode labels to/from ints used by PyTorch for classification
+class LabelEncoder:
+    def __init__(self):
+        self.label2int = {}  # used for encode
+        self.int2label = {}  # used for decode
+
+    def encode_label(self, label):
+        # add the label to the dicts if necessary
+        if label not in self.label2int:
+            label_int = len(self.label2int)
+            self.label2int[label] = label_int
+            self.int2label[label_int] = label
+
+        # return the int from the dict
+        return self.label2int[label]
+
+    def decode_label(self, label):
+        return self.int2label[label]
