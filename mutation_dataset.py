@@ -35,11 +35,16 @@ class MutationDataset(Dataset):
                 for acid_mutation in mutation_csv_row_without_label:
                     mutation_csv_row_as_ints.append(get_acid_mutation_value(acid_mutation))
 
-                # reformat the python data list so it works with the tensors.
-                mutation_csv_row_as_ints = torch.from_numpy(np.asarray(mutation_csv_row_as_ints))
+                # reformat the python data list as a tensor.
+                # This code line has some quirks, here's some explanations about what's going on:
+                # - we're converting the ints to float32s since the macOS ARM/"Apple Silicon" GPU-based PyTorch code
+                #   doesn't support float64 (int) processing.  float32 works across all platforms, so this is safe for
+                #   other machines as well.
+                # - "from_numpy()" creates a PyTorch tensor from the Numpy array.
+                mutation_csv_row_tensor = torch.from_numpy(np.asarray(mutation_csv_row_as_ints, dtype=np.float32))
 
-                # store the mutation information + the label in the "mutations" dict
-                self.mutations.append((mutation_csv_row_as_ints, mutation_csv_row_label))
+                # store the mutation information + the label in the "mutations" dict.
+                self.mutations.append((mutation_csv_row_tensor, mutation_csv_row_label))
 
     def __len__(self):
         return len(self.mutations)
@@ -55,8 +60,8 @@ class MutationDataset(Dataset):
 #
 # ‘-‘ = nothing is different, Ignore by returning zero
 # ‘.’ = no sequence present, Ignore by returning zero.
-# ‘<LETTER>#’ = insertion.  Return acid letter char value.
-# ‘~’ = deletion.  Return -1.  (That way we can indicate this change to the model.)
+# ‘<LETTER>#’ = insertion.  Ignore by returning zero.
+# ‘~’ = deletion.  Ignore by returning zero.
 # ‘<LETTER>*’ = stop codon.  If letter is present, return acid letter char value (since that indicates a change).
 #               Otherwise, ignore by returning zero.
 # ‘<LETTER>’ = one acid substitution, return the acid letter char value.
@@ -65,20 +70,27 @@ def get_acid_mutation_value(acid_mutation_str):
     if len(acid_mutation_str) == 0:  # handle any data formatting errors which create empty strings
         return 0
 
-    # this case == insertion or stop.  We are interested in the first character (the letter) in either case.
-    if len(acid_mutation_str) > 1:
-        return ord(acid_mutation_str[0])
+    # len > 1
+    elif len(acid_mutation_str) > 1:
+        # if the acid changed to a stop codon, we should return the value of the acid
+        if acid_mutation_str[1] == '*':
+            return ord(acid_mutation_str[0])
 
-    # if there's been a deletion, return -1.
-    if acid_mutation_str[0] == '~':
-        return -1
+        # this case == insertion or stop.  We are interested in the first character (the letter) in either case.
+        else:
+            return 0
 
-    # if nothing changed or no sequence is present, return 0.
-    if acid_mutation_str[0] == '-' or acid_mutation_str[0] == '.':
-        return 0
+    # len == 1
+    else:
+        # we should not do anything for no-ops, no-seqs, or deletions.
+        if acid_mutation_str[0] == '-' or acid_mutation_str[0] == '.' or acid_mutation_str[0] == '~':
+            return 0
 
-    # otherwise, return the char value of the acid letter.
-    return ord(acid_mutation_str[0])
+        # otherwise, return the char value of the acid letter.
+        else:
+            return ord(acid_mutation_str[0])
+
+
 
 
 # class used to encode/decode labels to/from ints used by PyTorch for classification

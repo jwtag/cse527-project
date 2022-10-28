@@ -13,11 +13,12 @@ test_dir = './model-data/test'
 train_files = os.listdir(train_dir)
 test_files = os.listdir(test_dir)
 
-device = "mps" if torch.backends.mps.is_available() else "cpu"
+device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
 def main():
     learning_rate = 0.00005
     momentum = 0.9
+    batch_size = 128
 
     print (train_dir)
     print (train_files)
@@ -26,72 +27,72 @@ def main():
     train_dataset = MutationDataset(train_files, train_dir)
 
     # setup training DataLoader.
-    trainloader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=4)
+    # TODO:  Set batch_size to be programmatically equal to DNA seq len (since we're processing in DNA-seq-len batches).
+    # train_dataset = the dataset we trained upon.
+    # batch_size = the sizes of the batches of data being processed at-a-time
+    # shuffle = shuffle the data to prevent any sort of ordering bias
+    # drop_last = ignore all remaining elements when "<# elements> % <batch_size> != 0".  this prevents unintended
+    #             processing errors.
+    trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
 
     # turn the training mutation data into a "Dataset" struct for training.
-    test_dataset = MutationDataset(test_files, test_dir)
+    #test_dataset = MutationDataset(test_files, test_dir)
 
     # setup test DataLoader.  TODO:  figure out why it's having weird formatting errors with copied file
     # testloader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
 
-    # Train the model + test it afterwards.  If the model has the best specs seen so far, save it to disk.
-    # TODO:  Do this.
-    net = Net()
+    # setup the model.
+    net = Net(batch_size)
     net.to(device)
 
+    # setup the loss function used to evaluate the model's accuracy.
     criterion = nn.CrossEntropyLoss()
     criterion.to(device)
+
+    # setup an optimizer to speed-up the model's performance.
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
+    # Train the model + test it afterwards.  If the model has the best specs seen so far, save it to disk.
+    # TODO:  Do this.
     train(trainloader, trainloader, net, criterion, optimizer)# TODO: make use the testloader once formatting issues are resolved:  trainloader, testloader, net, criterion, optimizer)
 
 
 # Our neural network definition
-# m's are conv output channels
-# f's are filter sizes
-# fc's are fully connected layer output sizes for fcl1 and fcl2
-# n is the maxpool size
 class Net(nn.Module):
-    def __init__(self):
+    def __init__(self, batch_size):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 15, 7) # output is (33 - f1) by (33 - f1) by m1
-        self.pool = nn.MaxPool2d(2)
-        self.pool_output_dims = int((65 - 7) / 2)
-        self.conv2 = nn.Conv2d(15, 12, 5) # output is (pool_output_dims - f2) ** 2 * m2
-        self.conv2_output_size = int((self.pool_output_dims + 1 - 5)/2)
-        self.conv3 = nn.Conv2d(12, 8, 3)
-        self.conv3_output_size = int((self.conv2_output_size + 1 - 3) / 2)
-        self.fc1 = nn.Linear(self.conv3_output_size ** 2 * 8, 300)
-        self.fc2 = nn.Linear(300, 150)
-        self.fc3 = nn.Linear(150, 80)
-        self.fc4 = nn.Linear(80, 50)
-        self.fc5 = nn.Linear(50, 2)
+
+        # this code is currently derived from
+        # https://towardsdatascience.com/modeling-dna-sequences-with-pytorch-de28b0a05036
+
+        # params
+        num_filters = 32
+        kernel_size = 5  # size of the kernel to look with at the data.  kernel is used to look at multiple datapoints at once.  arbitrarily choosing 5, may change in the future.
+        acid_seq_length = 288  # length of acid sequence.  NOTE:  THIS VARIES BY PROTEIN, WILL NEED TO EDIT!
+
+        # define the layers
+        self.conv1 = nn.Conv1d(in_channels=acid_seq_length, out_channels=num_filters, kernel_size=kernel_size)
+        self.relu = nn.ReLU()
+        self.flatten = nn.Flatten()
+
+        # honestly, figuring out the num in_features is a total PITA.  let's just duplicate this file for the two cases + set this value manually based upon the size of the data processed.
+        self.linear1 = nn.Linear(in_features=124, out_features=batch_size)  # out_features = batch_size
+
 
     def forward(self, x):
-        # print('-a', self.conv2_output_size)
-        x = x.transpose(1, 1)
+        # permute to put channel in correct order.
+        # The current channels are (batch size x acid seq len) when it should be (acid seq len x batch_size)
+        x = x.permute(1, -2)
 
-        # convert x from numpy to cuda
-        x = x.to(device)
-        #print('pool output dims', self.pool_output_dims)
-        #print('a', x.shape)
+        # apply the layers
         x = self.conv1(x)
-        #print('b', x.shape)
-        x = self.pool(F.relu(x))
-        #print('hey', x.shape)
-        x = self.pool(F.relu(self.conv2(x)))
-        x = self.pool(F.relu(self.conv3(x)))
-        #print('c', x.shape)
-        #print(int((((self.pool_output_dims-2)/2) ** 2) * 12))
-        x = x.view(-1, self.conv3_output_size ** 2 * 8)
-        #print('d', x.shape)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = F.relu(self.fc3(x))
-        x = F.relu(self.fc4(x))
-        x = self.fc5(x)
-        output = F.log_softmax(x, dim=1)
-        return output
+        x = self.relu(x)
+        x = self.flatten(x)
+        x = self.linear1(x)
+
+        x = x.permute(1, -2)
+
+        return x
 
 
 # Calculates the accuracy given a data loader and a neural network
@@ -100,14 +101,14 @@ def calculate_accuracy(loader, net):
     total = 0
     with torch.no_grad():
         for data in loader:
-            images, labels = data[0].to(device), data[1].to(device)
-            outputs = net(images)
+            inputs, labels = data[0].to(device), data[1].to(device)
+            outputs = net(inputs)
             _, predicted = torch.max(outputs, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
     accuracy = 100 * correct / total
-    print('Accuracy of the network on the test images: %d %%' % accuracy)
+    print('Accuracy of the network on the test sequences: %d %%' % accuracy)
     return accuracy
 
 
