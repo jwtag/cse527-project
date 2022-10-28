@@ -19,6 +19,7 @@ def main():
     learning_rate = 0.00005
     momentum = 0.9
     batch_size = 128
+    acid_seq_length = 288  # length of acid sequence.  NOTE:  THIS VARIES BY PROTEIN, WILL NEED TO EDIT!
 
     print (train_dir)
     print (train_files)
@@ -42,7 +43,7 @@ def main():
     # testloader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
 
     # setup the model.
-    net = Net(batch_size)
+    net = Net(acid_seq_length, batch_size)
     net.to(device)
 
     # setup the loss function used to evaluate the model's accuracy.
@@ -54,12 +55,12 @@ def main():
 
     # Train the model + test it afterwards.  If the model has the best specs seen so far, save it to disk.
     # TODO:  Do this.
-    train(trainloader, trainloader, net, criterion, optimizer)# TODO: make use the testloader once formatting issues are resolved:  trainloader, testloader, net, criterion, optimizer)
+    train(trainloader, trainloader, net, criterion, optimizer)  # TODO: make use the testloader once formatting issues are resolved:  trainloader, testloader, net, criterion, optimizer)
 
 
 # Our neural network definition
 class Net(nn.Module):
-    def __init__(self, batch_size):
+    def __init__(self, acid_seq_length, batch_size):
         super(Net, self).__init__()
 
         # this code is currently derived from
@@ -68,29 +69,42 @@ class Net(nn.Module):
         # params
         num_filters = 32
         kernel_size = 5  # size of the kernel to look with at the data.  kernel is used to look at multiple datapoints at once.  arbitrarily choosing 5, may change in the future.
-        acid_seq_length = 288  # length of acid sequence.  NOTE:  THIS VARIES BY PROTEIN, WILL NEED TO EDIT!
 
         # define the layers
-        self.conv1 = nn.Conv1d(in_channels=acid_seq_length, out_channels=num_filters, kernel_size=kernel_size)
+        self.conv1 = nn.Conv1d(in_channels=batch_size, out_channels=acid_seq_length, kernel_size=kernel_size)
         self.relu = nn.ReLU()
         self.flatten = nn.Flatten()
 
         # honestly, figuring out the num in_features is a total PITA.  let's just duplicate this file for the two cases + set this value manually based upon the size of the data processed.
-        self.linear1 = nn.Linear(in_features=124, out_features=batch_size)  # out_features = batch_size
+        self.linear1 = nn.Linear(in_features=284, out_features=batch_size)  # out_features = batch_size
 
 
     def forward(self, x):
         # permute to put channel in correct order.
-        # The current channels are (batch size x acid seq len) when it should be (acid seq len x batch_size)
-        x = x.permute(1, -2)
+
+        # TODO:  Maybe add more layers in the future, but this works for now.
 
         # apply the layers
         x = self.conv1(x)
-        x = self.relu(x)
-        x = self.flatten(x)
-        x = self.linear1(x)
+        # print("conv1")
+        # print(x.size())
 
-        x = x.permute(1, -2)
+        x = self.relu(x)
+        # print("relu")
+        # print(x.size())
+
+        x = self.flatten(x)
+        # print("flatten")
+        # print(x.size())
+
+        x = self.linear1(x)
+        # print("linear1")
+        # print(x.size())
+
+        # permute the result.
+        # The current channels are (batch size x acid seq len) when it should be (acid seq len x batch_size).
+        # (w/o doing this, the loss function won't work...)
+        x = x.permute(-1, 0)
 
         return x
 
@@ -135,7 +149,7 @@ def train(trainloader, testloader, net, criterion, optimizer):
 
             # forward + backward + optimize
             outputs = net(inputs)
-            # print(outputs.shape, labels.shape)
+            print(outputs.shape, labels.shape)
             loss = criterion(outputs, labels)
             loss.to(device)
             loss.backward()
