@@ -21,41 +21,44 @@ def main():
     batch_size = 128
     acid_seq_length = 288  # length of acid sequence.  NOTE:  THIS VARIES BY PROTEIN, WILL NEED TO EDIT!
 
-    print (train_dir)
-    print (train_files)
 
-    # turn the training mutation data into a "Dataset" struct for training.
-    train_dataset = MutationDataset(train_files, train_dir)
+    # create train + test datasets
 
-    # setup training DataLoader.
-    # TODO:  Set batch_size to be programmatically equal to DNA seq len (since we're processing in DNA-seq-len batches).
-    # train_dataset = the dataset we trained upon.
+    # first, load all data into one dataset
+    all_data_dataset = MutationDataset(train_files, train_dir)
+
+    # randomly divide the dataset into training + test at an 80%/20% ratio.
+    train_size = int(0.8 * len(all_data_dataset))
+    test_size = len(all_data_dataset) - train_size
+    train_dataset, test_dataset = torch.utils.data.random_split(all_data_dataset, [train_size, test_size])
+
+
+    # setup train + test DataLoaders.
+
     # batch_size = the sizes of the batches of data being processed at-a-time
     # shuffle = shuffle the data to prevent any sort of ordering bias
     # drop_last = ignore all remaining elements when "<# elements> % <batch_size> != 0".  this prevents unintended
     #             processing errors.
     trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
+    testloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
 
-    # turn the training mutation data into a "Dataset" struct for training.
-    #test_dataset = MutationDataset(test_files, test_dir)
 
-    # setup test DataLoader.  TODO:  figure out why it's having weird formatting errors with copied file
-    # testloader = DataLoader(test_dataset, batch_size=64, shuffle=True, num_workers=4)
-
-    # setup the model.
+    # setup the neural network.
     net = Net(acid_seq_length, batch_size)
     net.to(device)
+
 
     # setup the loss function used to evaluate the model's accuracy.
     criterion = nn.CrossEntropyLoss()
     criterion.to(device)
 
+
     # setup an optimizer to speed-up the model's performance.
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
-    # Train the model + test it afterwards.  If the model has the best specs seen so far, save it to disk.
-    # TODO:  Do this.
-    train(trainloader, trainloader, net, criterion, optimizer)  # TODO: make use the testloader once formatting issues are resolved:  trainloader, testloader, net, criterion, optimizer)
+
+    # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, save it to disk.
+    train(trainloader, testloader, net, criterion, optimizer)
 
 
 # Our neural network definition
@@ -110,7 +113,10 @@ class Net(nn.Module):
 
 
 # Calculates the accuracy given a data loader and a neural network
-def calculate_accuracy(loader, net):
+# loader = dataloader
+# loader_type = the type of data in the loader ("train" or "test")
+# net = the neural network being evaluated
+def calculate_accuracy(loader, loader_data_type, net):
     correct = 0
     total = 0
     with torch.no_grad():
@@ -122,7 +128,7 @@ def calculate_accuracy(loader, net):
             correct += (predicted == labels).sum().item()
 
     accuracy = 100 * correct / total
-    print('Accuracy of the network on the test sequences: %d %%' % accuracy)
+    print('Accuracy of the network on the ' + loader_data_type + ' sequences: %d %%' % accuracy)
     return accuracy
 
 
@@ -149,7 +155,7 @@ def train(trainloader, testloader, net, criterion, optimizer):
 
             # forward + backward + optimize
             outputs = net(inputs)
-            print(outputs.shape, labels.shape)
+            # print(outputs.shape, labels.shape)
             loss = criterion(outputs, labels)
             loss.to(device)
             loss.backward()
@@ -157,8 +163,9 @@ def train(trainloader, testloader, net, criterion, optimizer):
             if i % 100 == 0:
                 print(i)
 
-        train_accuracy = calculate_accuracy(trainloader, net)
-        test_accuracy = calculate_accuracy(testloader, net)
+        # evaluate the training + testing accuracies of the model.
+        train_accuracy = calculate_accuracy(trainloader, "training", net)
+        test_accuracy = calculate_accuracy(testloader, "testing", net)
         print(train_accuracy, test_accuracy)
 
         # update stored model if new best
