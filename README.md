@@ -1,15 +1,12 @@
 # So... what is the current state of this repo?
 
-This repo contains some relevant code from a past ML CSE project I worked on in 2019.  The models from the project can be 
-found in the following files:
-- `main.py`:  A basic NN-based classifier.
-- `main_resnet.py`:  A NN-based classifier which takes advantage of ResNet (a popular CNN) for additional accuracy.
-- `final_model.py`:  The most-optimized implementation of our classifier.  This model classified the best for our problem (classifying images of cats & dogs).
+`/model-data` contains the `.csv` which stores all the sequencing data.
 
-All the models get their data from the `model-data` directory.  All the source code for the models is tailored for the 
-original problem, and will need to be made generic for our project.  To keep this repo small, I removed all the testing/training
-data previously used for my 2019 project.
+There are three Python files:
+- `mutation-dataset.py` - This file is the PyTorch Dataset object which processes + stores the DNA mutations.
+- `main.py` - This file is the PyTorch neural-network executable that builds the NN.
+- `demo.py` - This file is a demo which takes in a sample sequencing of the three proteins and attempts to classify the HIV drug usage.
 
-As part of the original project, my group had to have some sort of demo.  For this, we created `demo.py`, which contains
-code which intakes an image and outputs if the classifier believes that it shows a cat or a dog.  This script may be
-useful to repurpose if we need to have any sort of demo for our project.
+Run `main.py` to startup the NN-training code.
+
+NOTE:  `demo.py` is not adapted (yet) to work with the DNA code.  It's still designed to be a cats-and-dogs image classifier.  This will be changed in the future.

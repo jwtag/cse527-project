@@ -7,44 +7,52 @@ import numpy as np
 from torch.utils.data import Dataset, DataLoader, ConcatDataset
 
 class MutationDataset(Dataset):
-    def __init__(self, mutations_csv_files, csv_file_dir):
+    def __init__(self, mutation_csv_file, use_binary_labels):
         # create dataset dict + LabelEncoder
         self.mutations = []
         self.label_encoder = LabelEncoder()
 
         # read in the csv
-        for filename in mutations_csv_files:
+        csv_file = open(mutation_csv_file)
+        mutation_csv_reader = csv.reader(csv_file)
 
-            csv_file = open(csv_file_dir + "/" + filename)
-            mutation_csv_reader = csv.reader(csv_file)
+        # skip header row.
+        next(mutation_csv_reader)
 
-            # skip header row
-            next(mutation_csv_reader)
+        # first three cols = drug name.
+        # last three cols = binary indicator of previous HIV drug usage.
 
-            for mutation_csv_row in mutation_csv_reader:
-                # python has each CSV row be a list of strings.
+        for mutation_csv_row in mutation_csv_reader:
+            # python has each CSV row be a list of strings.
 
-                # first col = treatment, rest of cols = mutations
+            # first col = treatment, rest of cols = mutations
 
-                # get the list w/o the label + the label
-                mutation_csv_row_without_label = mutation_csv_row[1:]
-                mutation_csv_row_label = self.label_encoder.encode_label(mutation_csv_row[1])
+            # get the list w/o the label data
+            mutation_csv_row_without_label = mutation_csv_row[6:]
 
-                # turn row into array of ints so it can be processed by pytorch
-                mutation_csv_row_as_ints = []
-                for acid_mutation in mutation_csv_row_without_label:
-                    mutation_csv_row_as_ints.append(get_acid_mutation_value(acid_mutation))
+            # get the label(s) for the data.  TODO:  Revise this if the model isn't precise enough.
+            mutation_csv_row_labels = self.get_multidrug_label_set(mutation_csv_row, use_binary_labels)
+            # encode the labels
+            encoded_labels = []
+            for label in mutation_csv_row_labels:
+                encoded_labels.append(self.label_encoder.encode_label(label))
 
-                # reformat the python data list as a tensor.
-                # This code line has some quirks, here's some explanations about what's going on:
-                # - we're converting the ints to float32s since the macOS ARM/"Apple Silicon" GPU-based PyTorch code
-                #   doesn't support float64 (int) processing.  float32 works across all platforms, so this is safe for
-                #   other machines as well.
-                # - "from_numpy()" creates a PyTorch tensor from the Numpy array.
-                mutation_csv_row_tensor = torch.from_numpy(np.asarray(mutation_csv_row_as_ints, dtype=np.float32))
+            # turn row into array of ints so it can be processed by pytorch
+            mutation_csv_row_as_ints = []
+            for acid_mutation in mutation_csv_row_without_label:
+                mutation_csv_row_as_ints.append(get_acid_mutation_value(acid_mutation))
 
-                # store the mutation information + the label in the "mutations" dict.
-                self.mutations.append((mutation_csv_row_tensor, mutation_csv_row_label))
+            # reformat the python data list as a tensor.
+            # This code line has some quirks, here's some explanations about what's going on:
+            # - we're converting the ints to float32s since the macOS ARM/"Apple Silicon" GPU-based PyTorch code
+            #   doesn't support float64 (int) processing.  float32 works across all platforms, so this is safe for
+            #   other machines as well.
+            # - "from_numpy()" creates a PyTorch tensor from the Numpy array.
+            mutation_csv_row_tensor = torch.from_numpy(np.asarray(mutation_csv_row_as_ints, dtype=np.float32))
+
+            # store the mutation information for each computed label in the "mutations" dict.
+            for label in encoded_labels:
+                self.mutations.append((mutation_csv_row_tensor, label))
 
     def __len__(self):
         return len(self.mutations)
@@ -52,8 +60,31 @@ class MutationDataset(Dataset):
     def __getitem__(self, idx):
         return self.mutations[idx]
 
+    # Obtains a set of labels for the row.  The labels specify the drug combination the patient has.
+    #
+    # mutation_csv_row = row being analyzed
+    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 for the other drug types.  (ex:  drugname101 = <drugname><true><false><true>)
+    #                     if false, we specify the entire drug name in the label(s).  (ex: drug1drug2N/A = <drug1><drug2><N/A>)
+    def get_multidrug_label_set(self, mutation_csv_row, use_binary_labels):
+        if (use_binary_labels):
+            # return a set containing a label for each drug type.
+            label1 = mutation_csv_row[0] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
+            label2 = mutation_csv_row[1] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
+            label3 = mutation_csv_row[2] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
+            return [label1, label2, label3]
+        else:
+            # return a set containing a label solely for the combo
+            label = mutation_csv_row[0] + mutation_csv_row[1] + mutation_csv_row[2]
+            return [label]
+
+
+
     def decode_label(self, encoded_label):
         return self.label_encoder.decode(encoded_label)
+
+
+    def get_num_acids_in_seq(self):
+        return len(self.mutations[0][0])
 
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:

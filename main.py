@@ -1,115 +1,136 @@
 import torch
-import torchvision.transforms as transforms
 import os
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
-import numpy as np
 
+from torch.utils.data import DataLoader
+from mutation_dataset import MutationDataset
 
-# load in training imgs, resize them with torchvision.transforms.Resize()
-# take training imgs, put into separate datasets based upon img name
-from torch.utils.data import Dataset, DataLoader, ConcatDataset
-from PIL import Image
+filename = './model-data/cse527_proj_data.csv'
 
-train_dir = 'model-data/train'
-test_dir = 'model-data/test'
-train_files = os.listdir(train_dir)
-test_files = os.listdir(test_dir)
-
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
 def main():
-    learning_rate = 0.0018739
+    learning_rate = 0.00005
     momentum = 0.9
+    batch_size = 128
+    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
+                               # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
 
-    data_transform = transforms.Compose([transforms.Resize((32, 32))])
 
-    cat_files = [tf for tf in train_files if 'cat' in tf]
-    cat_train_files = cat_files[:10000]
-    cat_test_files = cat_files[10000:]
-    dog_files = [tf for tf in train_files if 'dog' in tf]
-    dog_train_files = dog_files[:10000]
-    dog_test_files = dog_files[10000:]
+    # create train + test datasets
 
-    cats_train = CatDogDataset(cat_train_files, train_dir, transform=data_transform)
-    dogs_train = CatDogDataset(dog_train_files, train_dir, transform=data_transform)
+    # first, load all data into one dataset
+    all_data_dataset = MutationDataset(filename, use_binary_labels)
 
-    catdogs_train = ConcatDataset([cats_train, dogs_train])
+    # randomly divide the dataset into training + test at an 80%/20% ratio.
+    train_size = int(0.8 * len(all_data_dataset))
+    test_size = len(all_data_dataset) - train_size
+    train_dataset, test_dataset = torch.utils.data.random_split(all_data_dataset, [train_size, test_size])
 
-    trainloader = DataLoader(catdogs_train, batch_size=64, shuffle=True, num_workers=4)
+    # setup train + test DataLoaders.
 
-    cats_test = CatDogDataset(cat_test_files, train_dir, transform=data_transform)
-    dogs_test = CatDogDataset(dog_test_files, train_dir, transform=data_transform)
+    # batch_size = the sizes of the batches of data being processed at-a-time
+    # shuffle = shuffle the data to prevent any sort of ordering bias
+    # drop_last = ignore all remaining elements when "<# elements> % <batch_size> != 0".  this prevents unintended
+    #             processing errors.
+    trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
+    testloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
 
-    catdogs_test = ConcatDataset([cats_test, dogs_test])
 
-    testloader = DataLoader(catdogs_test, batch_size=64, shuffle=True, num_workers=4)
-
-    net = Net()
+    # setup the neural network.
+    acid_seq_length = all_data_dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
+    net = Net(acid_seq_length, batch_size)
     net.to(device)
 
+
+    # setup the loss function used to evaluate the model's accuracy.
     criterion = nn.CrossEntropyLoss()
     criterion.to(device)
+
+
+    # setup an optimizer to speed-up the model's performance.
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
+
+    # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, save it to disk.
     train(trainloader, testloader, net, criterion, optimizer)
 
 
 # Our neural network definition
-# m's are conv output channels
-# f's are filter sizes
-# fc's are fully connected layer output sizes for fcl1 and fcl2
-# n is the maxpool size
 class Net(nn.Module):
-    def __init__(self):
+    def __init__(self, acid_seq_length, batch_size):
         super(Net, self).__init__()
-        self.conv1 = nn.Conv2d(3, 8, 5) # output is (33 - f1) by (33 - f1) by m1
-        self.pool = nn.MaxPool2d(2)
-        self.pool_output_dims = int((33 - 5) / 2)
-        self.conv2 = nn.Conv2d(8, 12, 3) # output is (pool_output_dims - f2) ** 2 * m2
-        self.conv2_output_size = ((self.pool_output_dims - 2) ** 2) * 12
-        self.fc1 = nn.Linear(432, 25)
-        self.fc2 = nn.Linear(25, 12)
-        self.fc3 = nn.Linear(12, 2)
+
+        # this code is currently derived from
+        # https://towardsdatascience.com/modeling-dna-sequences-with-pytorch-de28b0a05036
+
+        # params
+        kernel_size = 5  # size of the kernel to look with at the data.  kernel is used to look at multiple datapoints at once.  arbitrarily choosing 5, may change in the future.
+
+        # define the layers
+        self.conv1 = nn.Conv1d(in_channels=batch_size, out_channels=acid_seq_length, kernel_size=kernel_size)  # we have out_channels == acid_seq_length.  This means that num_filters == acid_seq_length.
+        self.relu = nn.ReLU()
+        self.flatten = nn.Flatten()
+        self.linear1 = nn.Linear(in_features=acid_seq_length - 4, out_features=batch_size)  # out_features = batch_size
+
 
     def forward(self, x):
-        # print('-a', self.conv2_output_size)
-        x = x.transpose(1, 3)
+        # permute to put channel in correct order.
+        # NOTE:  All commented-out print statements are for debugging, leaving them in just in-case we need them in the
+        #        future.
 
-        # convert x from numpy to cuda
-        # x = x.to(device)
+        # TODO:  Maybe add more layers in the future, but this works for now.
 
-        # print('a', x.shape)
+        # print("before nn")
+        # print(x.size())
+
+        # apply the layers
         x = self.conv1(x)
-        # print('b', x.shape)
-        x = self.pool(F.relu(x))
-        x = self.pool(F.relu(self.conv2(x)))
-        # print('c', x.shape)
-        x = x.view(-1, 12 * 6 * 6)
-        # print('d', x.shape)
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = self.fc3(x)
-        # print('e', x.shape)
+        # print("conv1")
+        # print(x.size())
+
+        x = self.relu(x)
+        # print("relu")
+        # print(x.size())
+
+        x = self.flatten(x)
+        # print("flatten")
+        # print(x.size())
+
+        x = self.linear1(x)
+        # print("linear1")
+        # print(x.size())
+
+        # permute the result.
+        #
+        # At this point in the program, the current channels are (batch size x acid seq len) when it should be (acid seq
+        # len x batch_size).
+        # (w/o doing this permutation, the loss function won't work since the data will be oriented incorrectly...)
+        x = x.permute(-1, 0)
+
         return x
 
 
 # Calculates the accuracy given a data loader and a neural network
-def calculate_accuracy(loader, net):
+# loader = dataloader
+# loader_type = the type of data in the loader ("train" or "test")
+# net = the neural network being evaluated
+def calculate_accuracy(loader, loader_data_type, net):
     correct = 0
     total = 0
     with torch.no_grad():
         for data in loader:
-            images, labels = data[0].to(device), data[1].to(device)
-            outputs = net(images)
+            inputs, labels = data[0].to(device), data[1].to(device)
+            outputs = net(inputs)
             _, predicted = torch.max(outputs, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
 
     accuracy = 100 * correct / total
-    print('Accuracy of the network on the test images: %d %%' % accuracy)
+    print('Accuracy of the network on the ' + loader_data_type + ' sequences: %d %%' % accuracy)
     return accuracy
 
 
@@ -119,15 +140,25 @@ def train(trainloader, testloader, net, criterion, optimizer):
     train_accuracies = []
     epochs = []
     epoch = 0
+
+    # stores accuracies of "best train" model.  this model can most accurately predict the training data.
     best_train = 0
+
+    # stores accuracies of "best test" model.  this model can most accurately predict the testing data.
     best_test = 0
+
+    # stores accuracies of "best balanced" model.  "best balanced" == instance where train & test are better than ever.
+    # (we do this to have a model that isn't overfit)
+    best_balanced_train = 0
+    best_balanced_test = 0
     while epoch < 75 and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
         print("Epoch " + str(epoch + 1))
-        running_loss = 0.0
         for i, data in enumerate(trainloader, 0):
-            # get the inputs; data is a list of [inputs, labels]
-            inputs, labels = data[0].to(device), data[1].to(device)
 
+            # get the inputs; "data" is just an object containing a list of [acid values array, treatment label]
+            # these should "just work" with tensors, which is good
+            inputs = data[0].to(device)
+            labels = data[1].to(device)
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -142,8 +173,9 @@ def train(trainloader, testloader, net, criterion, optimizer):
             if i % 100 == 0:
                 print(i)
 
-        train_accuracy = calculate_accuracy(trainloader, net)
-        test_accuracy = calculate_accuracy(testloader, net)
+        # evaluate the training + testing accuracies of the model.
+        train_accuracy = calculate_accuracy(trainloader, "training", net)
+        test_accuracy = calculate_accuracy(testloader, "testing", net)
         print(train_accuracy, test_accuracy)
 
         # update stored model if new best
@@ -153,6 +185,10 @@ def train(trainloader, testloader, net, criterion, optimizer):
         if best_train < train_accuracy:
             best_train = train_accuracy
             torch.save(net.state_dict(), "model_best_train.pt")
+        if best_balanced_train <= train_accuracy and best_balanced_test <= test_accuracy:
+            best_balanced_train = train_accuracy
+            best_balanced_test = test_accuracy
+            torch.save(net.state_dict(), "model_best_balanced.pt")
         train_accuracies.append(train_accuracy)
         test_accuracies.append(test_accuracy)
         epochs.append(epoch)
@@ -164,41 +200,9 @@ def train(trainloader, testloader, net, criterion, optimizer):
     plt.plot(epochs, train_accuracies)
     plt.plot(epochs, test_accuracies)
     plt.legend(["Train", "Test"])
-    plt.title("OG Model Accuracy per Epoch")
-    plt.savefig("og_chart.png")
+    plt.title("Model Accuracy per Epoch")
+    plt.savefig("chart.png")
     plt.show()
-
-
-class CatDogDataset(Dataset):
-    def __init__(self, file_list, dir, mode='train', transform=None):
-        self.file_list = file_list
-        self.dir = dir
-        self.mode = mode
-        self.transform = transform
-        if self.mode == 'train':
-            if 'dog' in self.file_list[0]:
-                self.label = 1
-            else:
-                self.label = 0
-
-        # preprocess imgs for significant speedup
-        self.imgs = []
-        for file in file_list:
-            img = Image.open(os.path.join(self.dir, file))
-            if self.transform:
-                img = self.transform(img)
-            img = np.array(img)
-            img = img.astype('float32')
-            if self.mode == 'train':
-                self.imgs.append((img, self.label))
-            else:
-                self.imgs.append((img, file))
-
-    def __len__(self):
-        return len(self.file_list)
-
-    def __getitem__(self, idx):
-        return self.imgs[idx]
 
 
 if __name__ == "__main__":
