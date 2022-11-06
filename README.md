@@ -13,8 +13,6 @@ NOTE:  `demo.py` is not adapted (yet) to work with the DNA code.  It's still des
 
 # Remaining TODOs:
 
-verify that the layers are operating correctly.   (they're currently doing epochs w/ no accuracy difference, which makes me think the layer manipulation may be bad...)
-
 make multilabelled vars.
 - each category = var
 - each category can have multiple drugs.
