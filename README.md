@@ -10,3 +10,14 @@ There are three Python files:
 Run `main.py` to startup the NN-training code.
 
 NOTE:  `demo.py` is not adapted (yet) to work with the DNA code.  It's still designed to be a cats-and-dogs image classifier.  This will be changed in the future.
+
+# Remaining TODOs:
+
+verify that the layers are operating correctly.   (they're currently doing epochs w/ no accuracy difference, which makes me think the layer manipulation may be bad...)
+
+make multilabelled vars.
+- each category = var
+- each category can have multiple drugs.
+- prefix each drug with category to make sure that there is no cross-categorization
+
+maybe also just make things be Drug Presence?  T/F boolean.  Have drug?  Make multilabeled with binary.

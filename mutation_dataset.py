@@ -4,7 +4,7 @@ import csv
 import torch
 import numpy as np
 
-from torch.utils.data import Dataset, DataLoader, ConcatDataset
+from torch.utils.data import Dataset
 
 class MutationDataset(Dataset):
     def __init__(self, mutation_csv_file, use_binary_labels):
@@ -15,9 +15,6 @@ class MutationDataset(Dataset):
         # read in the csv
         csv_file = open(mutation_csv_file)
         mutation_csv_reader = csv.reader(csv_file)
-
-        # skip header row.
-        next(mutation_csv_reader)
 
         # first three cols = drug name.
         # last three cols = binary indicator of previous HIV drug usage.
@@ -50,6 +47,12 @@ class MutationDataset(Dataset):
             # - "from_numpy()" creates a PyTorch tensor from the Numpy array.
             mutation_csv_row_tensor = torch.from_numpy(np.asarray(mutation_csv_row_as_ints, dtype=np.float32))
 
+            # use `unsqueeze()` add a dimension indicating that there is only 1 channel-per-sequence.
+            # (This dimension would be multichannel if, for example, this were an image w/ RGB channels.  This would mean 3 channels.)
+            #
+            # This makes the final tensor dimension be (1 channel x acid seq len)
+            mutation_csv_row_tensor = torch.unsqueeze(mutation_csv_row_tensor, dim=0)
+
             # store the mutation information for each computed label in the "mutations" dict.
             for label in encoded_labels:
                 self.mutations.append((mutation_csv_row_tensor, label))
@@ -68,6 +71,7 @@ class MutationDataset(Dataset):
     def get_multidrug_label_set(self, mutation_csv_row, use_binary_labels):
         if (use_binary_labels):
             # return a set containing a label for each drug type.
+            # TODO:  Update to make "None" be location-specific to avoid data overrepresentation.
             label1 = mutation_csv_row[0] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
             label2 = mutation_csv_row[1] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
             label3 = mutation_csv_row[2] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
@@ -80,11 +84,11 @@ class MutationDataset(Dataset):
 
 
     def decode_label(self, encoded_label):
-        return self.label_encoder.decode(encoded_label)
+        return self.label_encoder.decode_label(encoded_label)
 
 
     def get_num_acids_in_seq(self):
-        return len(self.mutations[0][0])
+        return len(self.mutations[0][0][0])
 
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
