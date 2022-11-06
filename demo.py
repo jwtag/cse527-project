@@ -37,10 +37,12 @@ def main():
         output = net(data[0].to(device))
 
         # get predicted val
-        _, predicted_tensor = torch.max(output, -2)
+        _, predicted_tensor = torch.max(output, 1)
+        print(predicted_tensor)
         predicted_val = predicted_tensor[0].item()
 
         # print classified value
+        print(predicted_tensor[2])
         print(original_model_dataset.decode_label(predicted_val))
 
 if __name__ == "__main__":

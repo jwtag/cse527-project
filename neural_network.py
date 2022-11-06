@@ -20,7 +20,11 @@ class Net(nn.Module):
         self.conv1 = nn.Conv1d(in_channels=1, out_channels=num_filters, kernel_size=kernel_size)
         self.relu = nn.ReLU(inplace=True)
         self.flatten = nn.Flatten()
-        self.linear1 = nn.Linear(in_features=num_filters * (acid_seq_length - kernel_size + 1), out_features=1)
+        # print(num_filters)
+        # print(acid_seq_length)
+        # print(kernel_size)
+        # print(num_filters * (acid_seq_length - kernel_size + 1))
+        self.linear1 = nn.Linear(in_features=num_filters * (acid_seq_length - kernel_size + 1), out_features=acid_seq_length)
 
 
     def forward(self, x):
@@ -29,15 +33,10 @@ class Net(nn.Module):
 
         # TODO:  Maybe add more layers in the future, but this works for now.
 
-        # print("before nn")
-        # print(x.size())
-
-        # permute the tensor.
+        # At this point in the program, the current channels are (acid seq len x 1 channel x batch_size).
         #
-        # At this point in the program, the current channels are (batch size x acid seq len) when the conv1d layer takes
-        # in (acid seq len x 1 channel x batch_size).
-        # x = x.permute(0, 2, 1)
-        # print("after permute")
+        # (conv1d layers require the format to be (batch x channels x num features))
+        # print("before nn")
         # print(x.size())
 
         # apply the layers

@@ -47,11 +47,7 @@ class MutationDataset(Dataset):
             # - "from_numpy()" creates a PyTorch tensor from the Numpy array.
             mutation_csv_row_tensor = torch.from_numpy(np.asarray(mutation_csv_row_as_ints, dtype=np.float32))
 
-            # use `unsqueeze()` add a dimension indicating that there is only 1 channel-per-sequence.
-            # (This dimension would be multichannel if, for example, this were an image w/ RGB channels.  This would mean 3 channels.)
-            #
-            # This makes the final tensor dimension be (1 channel x acid seq len)
-            mutation_csv_row_tensor = torch.unsqueeze(mutation_csv_row_tensor, dim=0)
+            mutation_csv_row_tensor = torch.unsqueeze(mutation_csv_row_tensor, 0)
 
             # store the mutation information for each computed label in the "mutations" dict.
             for label in encoded_labels:
