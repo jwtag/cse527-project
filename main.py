@@ -6,10 +6,11 @@ import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from mutation_dataset import MutationDataset
 from neural_network import Net
+from sklearn.metrics import accuracy_score
 
 filename = './model-data/cse527_proj_data.csv'
 
-device = "mps" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
+device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
 def main():
     learning_rate = 0.00005
@@ -41,21 +42,18 @@ def main():
 
     # setup the neural network.
     acid_seq_length = all_data_dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
-    net = Net(acid_seq_length)
+    net = Net(acid_seq_length,
+              all_data_dataset.get_num_drugs_of_type(1),
+              all_data_dataset.get_num_drugs_of_type(2),
+              all_data_dataset.get_num_drugs_of_type(3))
     net.to(device)
-
-
-    # setup the loss function used to evaluate the model's accuracy.
-    criterion = nn.CrossEntropyLoss()
-    criterion.to(device)
-
 
     # setup an optimizer to speed-up the model's performance.
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
 
     # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, save it to disk.
-    train(trainloader, testloader, net, criterion, optimizer)
+    train(trainloader, testloader, net, optimizer)
 
 # Calculates the accuracy given a data loader and a neural network
 # loader = dataloader
@@ -67,18 +65,33 @@ def calculate_accuracy(loader, loader_data_type, net):
     with torch.no_grad():
         for data in loader:
             inputs, labels = data[0].to(device), data[1].to(device)
-            outputs = net(inputs)
+            outputs = net(inputs).cpu()
+            print(outputs)
             _, predicted = torch.max(outputs, 1)
-            # print(predicted)
+            # print(labels)
+
             total += labels.size(0)
-            correct += (predicted == labels).sum().item()
+            correct += accuracy_score(labels, outputs)
 
     accuracy = 100 * correct / total
     print('Accuracy of the network on the ' + loader_data_type + ' sequences: %d %%' % accuracy)
     return accuracy
 
 
-def train(trainloader, testloader, net, criterion, optimizer):
+# setup the loss function used to evaluate the model's accuracy.
+def criterion(outputs, labels):
+    loss_func = nn.BCEWithLogitsLoss()
+    losses = 0.0
+    #print(labels)
+    #print(outputs)
+    for i, key in enumerate(outputs):
+        #print(i)
+        print(outputs[key].squeeze(1))  # TODO:  Figure out if this is "squeeze" is correct (it's most likely not...)
+        losses += loss_func(outputs[key].squeeze(1), labels[key].float())  # TODO:  Figure out if "float" is correct (it's most likely not...)
+    return losses
+
+
+def train(trainloader, testloader, net, optimizer):
     print("Starting to train")
     test_accuracies = []
     train_accuracies = []
@@ -101,16 +114,15 @@ def train(trainloader, testloader, net, criterion, optimizer):
 
             # get the inputs; "data" is just an object containing a list of [acid values array, treatment label]
             # these should "just work" with tensors, which is good
-            inputs = data[0].to(device)
-            labels = data[1].to(device)
+            inputs = data['mutation_seq'].to(device)
 
             # zero the parameter gradients
             optimizer.zero_grad()
 
             # forward + backward + optimize
             outputs = net(inputs)
-            # print(outputs.shape, labels.shape)
-            loss = criterion(outputs, labels)
+
+            loss = criterion(outputs, data['labels'])
             loss.to(device)
             loss.backward()
             optimizer.step()
