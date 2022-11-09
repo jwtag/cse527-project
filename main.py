@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from torch.utils.data import DataLoader
 from mutation_dataset import MutationDataset
 from neural_network import Net
-from sklearn.metrics import accuracy_score
 
 filename = './model-data/cse527_proj_data.csv'
 
@@ -34,18 +33,13 @@ def main():
 
     # batch_size = the sizes of the batches of data being processed at-a-time
     # shuffle = shuffle the data to prevent any sort of ordering bias
-    # drop_last = ignore all remaining elements when "<# elements> % <batch_size> != 0".  this prevents unintended
-    #             processing errors.
     trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
     testloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
 
 
     # setup the neural network.
     acid_seq_length = all_data_dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
-    net = Net(acid_seq_length,
-              all_data_dataset.get_num_drugs_of_type(1),
-              all_data_dataset.get_num_drugs_of_type(2),
-              all_data_dataset.get_num_drugs_of_type(3))
+    net = Net(acid_seq_length)
     net.to(device)
 
     # setup an optimizer to speed-up the model's performance.
@@ -64,14 +58,21 @@ def calculate_accuracy(loader, loader_data_type, net):
     total = 0
     with torch.no_grad():
         for data in loader:
-            inputs, labels = data[0].to(device), data[1].to(device)
-            outputs = net(inputs).cpu()
-            print(outputs)
-            _, predicted = torch.max(outputs, 1)
-            # print(labels)
+            inputs, labels = data['mutation_seq'].to(device), data['labels']
+            outputs = net(inputs)
 
-            total += labels.size(0)
-            correct += accuracy_score(labels, outputs)
+            # get the predicted drug for each drug type
+            _, predicted_type_1 = torch.max(outputs['drug_type_1'], 1)
+            _, predicted_type_2 = torch.max(outputs['drug_type_2'], 1)
+            _, predicted_type_3 = torch.max(outputs['drug_type_3'], 1)
+
+            # store if the predictions were correct
+            total += labels['drug_type_1'].size(0)
+            correct += (predicted_type_1 == labels['drug_type_1']).sum().item()
+            total += labels['drug_type_2'].size(0)
+            correct += (predicted_type_2 == labels['drug_type_2']).sum().item()
+            total += labels['drug_type_3'].size(0)
+            correct += (predicted_type_3 == labels['drug_type_3']).sum().item()
 
     accuracy = 100 * correct / total
     print('Accuracy of the network on the ' + loader_data_type + ' sequences: %d %%' % accuracy)
@@ -80,14 +81,10 @@ def calculate_accuracy(loader, loader_data_type, net):
 
 # setup the loss function used to evaluate the model's accuracy.
 def criterion(outputs, labels):
-    loss_func = nn.BCEWithLogitsLoss()
+    loss_func = nn.CrossEntropyLoss()
     losses = 0.0
-    #print(labels)
-    #print(outputs)
     for i, key in enumerate(outputs):
-        #print(i)
-        print(outputs[key].squeeze(1))  # TODO:  Figure out if this is "squeeze" is correct (it's most likely not...)
-        losses += loss_func(outputs[key].squeeze(1), labels[key].float())  # TODO:  Figure out if "float" is correct (it's most likely not...)
+        losses += loss_func(outputs[key], labels[key])
     return losses
 
 

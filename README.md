@@ -11,11 +11,18 @@ Run `main.py` to startup the NN-training code.
 
 NOTE:  `demo.py` is not adapted (yet) to work with the DNA code.  It's still designed to be a cats-and-dogs image classifier.  This will be changed in the future.
 
+# Multilabeled data.
+
+This classifier supports multilabeled data (each entry has a label for each drug type).
+
+It can run where the labels are the actual drug names, or where the labels are a simple 1/0 to indicate if that type of 
+drug is present.  To turn on the 1/0 approach, flip the `use_binary_labels` variable in `main.py`.
+
+While there _are_ fancy libraries out there for handling this, I chose to do this via having three separate sub-classifiers
+which aggregate their results.  [I developed this approach by following this guide.](https://towardsdatascience.com/multilabel-classification-with-pytorch-in-5-minutes-a4fa8993cbc7)
+
+The labels in each drug type are suffixed with the category to ensure no cross-categorization occurs.
+
 # Remaining TODOs:
 
-make multilabelled vars.
-- each category = var
-- each category can have multiple drugs.
-- prefix each drug with category to make sure that there is no cross-categorization
-
-maybe also just make things be Drug Presence?  T/F boolean.  Have drug?  Make multilabeled with binary.
+get demo working with multilabeled vars

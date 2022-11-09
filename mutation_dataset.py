@@ -66,9 +66,9 @@ class MutationDataset(Dataset):
     def get_multidrug_label_set(self, mutation_csv_row, use_binary_labels):
         if use_binary_labels:
             # make the labels simple T/F (0s/1s).
-            label1 = self.label_encoder.encode_label(0 if mutation_csv_row[0] is None else 1, 1)
-            label2 = self.label_encoder.encode_label(0 if mutation_csv_row[1] is None else 1, 2)
-            label3 = self.label_encoder.encode_label(0 if mutation_csv_row[2] is None else 1, 3)
+            label1 = self.label_encoder.encode_label(0 if mutation_csv_row[3] == "0" else 1, 1)
+            label2 = self.label_encoder.encode_label(0 if mutation_csv_row[4] == "0" else 1, 2)
+            label3 = self.label_encoder.encode_label(0 if mutation_csv_row[5] == "0" else 1, 3)
         else:
             # get the values for the labels
             label1 = self.label_encoder.encode_label(mutation_csv_row[0], 1)
@@ -87,9 +87,6 @@ class MutationDataset(Dataset):
 
     def get_num_acids_in_seq(self):
         return len(self.mutations[0]['mutation_seq'][0])
-
-    def get_num_drugs_of_type(self, type_num):
-        return self.label_encoder.get_num_type(type_num)
 
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
@@ -134,7 +131,6 @@ class LabelEncoder:
     def __init__(self):
         self.label2int = {}  # used for encode
         self.int2label = {}  # used for decode
-        self.type_count = [0, 0, 0]
 
     def encode_label(self, label, type_num):
         # the label should have the drug type category appended to it.  (this is in case it shows up in multiple columns)
@@ -145,18 +141,9 @@ class LabelEncoder:
             label_int = len(self.label2int)
             self.label2int[label_with_category] = label_int
             self.int2label[label_int] = label_with_category
-            self.type_count[type_num - 1] += 1
-
-            print("encoded new label")
-            print(type_num)
-            print(self.type_count[type_num - 1])
 
         # return the int from the dict
         return self.label2int[label_with_category]
 
     def decode_label(self, label):
         return self.int2label[label]
-
-    # returns the number of drugs of the passed type (1, 2, or 3).
-    def get_num_type(self, type_num):
-        return self.type_count[type_num - 1]
