@@ -1,12 +1,11 @@
 import torch
-import os
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
 import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader
 from mutation_dataset import MutationDataset
+from neural_network import Net
 
 filename = './model-data/cse527_proj_data.csv'
 
@@ -16,7 +15,7 @@ def main():
     learning_rate = 0.00005
     momentum = 0.9
     batch_size = 128
-    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
+    use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
                                # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
 
 
@@ -34,85 +33,21 @@ def main():
 
     # batch_size = the sizes of the batches of data being processed at-a-time
     # shuffle = shuffle the data to prevent any sort of ordering bias
-    # drop_last = ignore all remaining elements when "<# elements> % <batch_size> != 0".  this prevents unintended
-    #             processing errors.
-    trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
-    testloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4, drop_last=True)
+    trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    testloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
 
 
     # setup the neural network.
     acid_seq_length = all_data_dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
-    net = Net(acid_seq_length, batch_size)
+    net = Net(acid_seq_length)
     net.to(device)
-
-
-    # setup the loss function used to evaluate the model's accuracy.
-    criterion = nn.CrossEntropyLoss()
-    criterion.to(device)
-
 
     # setup an optimizer to speed-up the model's performance.
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
 
     # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, save it to disk.
-    train(trainloader, testloader, net, criterion, optimizer)
-
-
-# Our neural network definition
-class Net(nn.Module):
-    def __init__(self, acid_seq_length, batch_size):
-        super(Net, self).__init__()
-
-        # this code is currently derived from
-        # https://towardsdatascience.com/modeling-dna-sequences-with-pytorch-de28b0a05036
-
-        # params
-        kernel_size = 5  # size of the kernel to look with at the data.  kernel is used to look at multiple datapoints at once.  arbitrarily choosing 5, may change in the future.
-
-        # define the layers
-        self.conv1 = nn.Conv1d(in_channels=batch_size, out_channels=acid_seq_length, kernel_size=kernel_size)  # we have out_channels == acid_seq_length.  This means that num_filters == acid_seq_length.
-        self.relu = nn.ReLU()
-        self.flatten = nn.Flatten()
-        self.linear1 = nn.Linear(in_features=acid_seq_length - 4, out_features=batch_size)  # out_features = batch_size
-
-
-    def forward(self, x):
-        # permute to put channel in correct order.
-        # NOTE:  All commented-out print statements are for debugging, leaving them in just in-case we need them in the
-        #        future.
-
-        # TODO:  Maybe add more layers in the future, but this works for now.
-
-        # print("before nn")
-        # print(x.size())
-
-        # apply the layers
-        x = self.conv1(x)
-        # print("conv1")
-        # print(x.size())
-
-        x = self.relu(x)
-        # print("relu")
-        # print(x.size())
-
-        x = self.flatten(x)
-        # print("flatten")
-        # print(x.size())
-
-        x = self.linear1(x)
-        # print("linear1")
-        # print(x.size())
-
-        # permute the result.
-        #
-        # At this point in the program, the current channels are (batch size x acid seq len) when it should be (acid seq
-        # len x batch_size).
-        # (w/o doing this permutation, the loss function won't work since the data will be oriented incorrectly...)
-        x = x.permute(-1, 0)
-
-        return x
-
+    train(trainloader, testloader, net, optimizer)
 
 # Calculates the accuracy given a data loader and a neural network
 # loader = dataloader
@@ -123,18 +58,37 @@ def calculate_accuracy(loader, loader_data_type, net):
     total = 0
     with torch.no_grad():
         for data in loader:
-            inputs, labels = data[0].to(device), data[1].to(device)
+            inputs, labels = data['mutation_seq'].to(device), data['labels']
             outputs = net(inputs)
-            _, predicted = torch.max(outputs, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
+
+            # get the predicted drug for each drug type
+            _, predicted_type_1 = torch.max(outputs['drug_type_1'], 1)
+            _, predicted_type_2 = torch.max(outputs['drug_type_2'], 1)
+            _, predicted_type_3 = torch.max(outputs['drug_type_3'], 1)
+
+            # store if the predictions were correct
+            total += labels['drug_type_1'].size(0)
+            correct += (predicted_type_1 == labels['drug_type_1']).sum().item()
+            total += labels['drug_type_2'].size(0)
+            correct += (predicted_type_2 == labels['drug_type_2']).sum().item()
+            total += labels['drug_type_3'].size(0)
+            correct += (predicted_type_3 == labels['drug_type_3']).sum().item()
 
     accuracy = 100 * correct / total
     print('Accuracy of the network on the ' + loader_data_type + ' sequences: %d %%' % accuracy)
     return accuracy
 
 
-def train(trainloader, testloader, net, criterion, optimizer):
+# setup the loss function used to evaluate the model's accuracy.
+def criterion(outputs, labels):
+    loss_func = nn.CrossEntropyLoss()
+    losses = 0.0
+    for i, key in enumerate(outputs):
+        losses += loss_func(outputs[key], labels[key])
+    return losses
+
+
+def train(trainloader, testloader, net, optimizer):
     print("Starting to train")
     test_accuracies = []
     train_accuracies = []
@@ -157,16 +111,15 @@ def train(trainloader, testloader, net, criterion, optimizer):
 
             # get the inputs; "data" is just an object containing a list of [acid values array, treatment label]
             # these should "just work" with tensors, which is good
-            inputs = data[0].to(device)
-            labels = data[1].to(device)
+            inputs = data['mutation_seq'].to(device)
 
             # zero the parameter gradients
             optimizer.zero_grad()
 
             # forward + backward + optimize
             outputs = net(inputs)
-            # print(outputs.shape, labels.shape)
-            loss = criterion(outputs, labels)
+
+            loss = criterion(outputs, data['labels'])
             loss.to(device)
             loss.backward()
             optimizer.step()

@@ -4,7 +4,7 @@ import csv
 import torch
 import numpy as np
 
-from torch.utils.data import Dataset, DataLoader, ConcatDataset
+from torch.utils.data import Dataset
 
 class MutationDataset(Dataset):
     def __init__(self, mutation_csv_file, use_binary_labels):
@@ -15,9 +15,6 @@ class MutationDataset(Dataset):
         # read in the csv
         csv_file = open(mutation_csv_file)
         mutation_csv_reader = csv.reader(csv_file)
-
-        # skip header row.
-        next(mutation_csv_reader)
 
         # first three cols = drug name.
         # last three cols = binary indicator of previous HIV drug usage.
@@ -30,12 +27,8 @@ class MutationDataset(Dataset):
             # get the list w/o the label data
             mutation_csv_row_without_label = mutation_csv_row[6:]
 
-            # get the label(s) for the data.  TODO:  Revise this if the model isn't precise enough.
-            mutation_csv_row_labels = self.get_multidrug_label_set(mutation_csv_row, use_binary_labels)
-            # encode the labels
-            encoded_labels = []
-            for label in mutation_csv_row_labels:
-                encoded_labels.append(self.label_encoder.encode_label(label))
+            # get the label(s) for the data.
+            mutation_csv_row_labels_dict = self.get_multidrug_label_set(mutation_csv_row, use_binary_labels)
 
             # turn row into array of ints so it can be processed by pytorch
             mutation_csv_row_as_ints = []
@@ -50,9 +43,14 @@ class MutationDataset(Dataset):
             # - "from_numpy()" creates a PyTorch tensor from the Numpy array.
             mutation_csv_row_tensor = torch.from_numpy(np.asarray(mutation_csv_row_as_ints, dtype=np.float32))
 
-            # store the mutation information for each computed label in the "mutations" dict.
-            for label in encoded_labels:
-                self.mutations.append((mutation_csv_row_tensor, label))
+            # add a dimension to represent the number of rows (which there is only 1)
+            mutation_csv_row_tensor = torch.unsqueeze(mutation_csv_row_tensor, 0)
+
+            # create a dict containing the tensor + the labels
+            mutation_dict = {'mutation_seq': mutation_csv_row_tensor, 'labels': mutation_csv_row_labels_dict}
+
+            # store the mutation dict in the "mutations" list.
+            self.mutations.append(mutation_dict)
 
     def __len__(self):
         return len(self.mutations)
@@ -60,31 +58,35 @@ class MutationDataset(Dataset):
     def __getitem__(self, idx):
         return self.mutations[idx]
 
-    # Obtains a set of labels for the row.  The labels specify the drug combination the patient has.
+    # Obtains a dict of labels for the row.  The labels specify the drug combination the patient has.
     #
     # mutation_csv_row = row being analyzed
-    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 for the other drug types.  (ex:  drugname101 = <drugname><true><false><true>)
-    #                     if false, we specify the entire drug name in the label(s).  (ex: drug1drug2N/A = <drug1><drug2><N/A>)
+    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 for each drug class.
+    #                     if false, the labels are scoped to the drugs.
     def get_multidrug_label_set(self, mutation_csv_row, use_binary_labels):
-        if (use_binary_labels):
-            # return a set containing a label for each drug type.
-            label1 = mutation_csv_row[0] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
-            label2 = mutation_csv_row[1] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
-            label3 = mutation_csv_row[2] + ',' +  mutation_csv_row[3] + ',' + mutation_csv_row[4] + ',' +  mutation_csv_row[5]
-            return [label1, label2, label3]
+        if use_binary_labels:
+            # make the labels simple T/F (0s/1s).
+            label1 = self.label_encoder.encode_label(0 if mutation_csv_row[3] == "0" else 1, 1)
+            label2 = self.label_encoder.encode_label(0 if mutation_csv_row[4] == "0" else 1, 2)
+            label3 = self.label_encoder.encode_label(0 if mutation_csv_row[5] == "0" else 1, 3)
         else:
-            # return a set containing a label solely for the combo
-            label = mutation_csv_row[0] + mutation_csv_row[1] + mutation_csv_row[2]
-            return [label]
+            # get the values for the labels
+            label1 = self.label_encoder.encode_label(mutation_csv_row[0], 1)
+            label2 = self.label_encoder.encode_label(mutation_csv_row[1], 2)
+            label3 = self.label_encoder.encode_label(mutation_csv_row[2], 3)
 
-
+        return {
+            'drug_type_1': label1,
+            'drug_type_2': label2,
+            'drug_type_3': label3
+        }
 
     def decode_label(self, encoded_label):
-        return self.label_encoder.decode(encoded_label)
+        return self.label_encoder.decode_label(encoded_label)
 
 
     def get_num_acids_in_seq(self):
-        return len(self.mutations[0][0])
+        return len(self.mutations[0]['mutation_seq'][0])
 
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
@@ -130,15 +132,18 @@ class LabelEncoder:
         self.label2int = {}  # used for encode
         self.int2label = {}  # used for decode
 
-    def encode_label(self, label):
+    def encode_label(self, label, type_num):
+        # the label should have the drug type category appended to it.  (this is in case it shows up in multiple columns)
+        label_with_category = str(label) + "_" + str(type_num)
+
         # add the label to the dicts if necessary
-        if label not in self.label2int:
+        if label_with_category not in self.label2int:
             label_int = len(self.label2int)
-            self.label2int[label] = label_int
-            self.int2label[label_int] = label
+            self.label2int[label_with_category] = label_int
+            self.int2label[label_int] = label_with_category
 
         # return the int from the dict
-        return self.label2int[label]
+        return self.label2int[label_with_category]
 
     def decode_label(self, label):
         return self.int2label[label]
