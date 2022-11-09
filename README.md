@@ -9,8 +9,6 @@ There are three Python files:
 
 Run `main.py` to startup the NN-training code.
 
-NOTE:  `demo.py` is not adapted (yet) to work with the DNA code.  It's still designed to be a cats-and-dogs image classifier.  This will be changed in the future.
-
 # Multilabeled data.
 
 This classifier supports multilabeled data (each entry has a label for each drug type).
