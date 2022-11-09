@@ -12,7 +12,7 @@ device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.
 
 def main():
     batch_size = 128  # must match the batch size used to generate the classifier model.
-    use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
+    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
                               # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
                               # NOTE:  THIS MUST MATCH THE LABELLING SYSTEM USED TO GENERATE THE MODELS!
 
@@ -34,16 +34,28 @@ def main():
     # get output
     for i, data in enumerate(seqLoader, 0):
         # run sequences thru nn
-        output = net(data[0].to(device))
+        output = net(data['mutation_seq'].to(device))
 
-        # get predicted val
-        _, predicted_tensor = torch.max(output, 1)
-        print(predicted_tensor)
-        predicted_val = predicted_tensor[0].item()
+        # get predicted vals
+        # get the predicted drug for each drug type
+        _, predicted_type_1 = torch.max(output['drug_type_1'], 1)
+        _, predicted_type_2 = torch.max(output['drug_type_2'], 1)
+        _, predicted_type_3 = torch.max(output['drug_type_3'], 1)
+
+        # get the label for each val
+        predicted_val_type_1 = predicted_type_1[0].item()
+        predicted_val_type_2 = predicted_type_2[0].item()
+        predicted_val_type_3 = predicted_type_3[0].item()
+
+        # decode the labels
+        drug_1 = original_model_dataset.decode_label(predicted_val_type_1)
+        drug_2 = original_model_dataset.decode_label(predicted_val_type_2)
+        drug_3 = original_model_dataset.decode_label(predicted_val_type_3)
 
         # print classified value
-        print(predicted_tensor[2])
-        print(original_model_dataset.decode_label(predicted_val))
+        print(drug_1)
+        print(drug_2)
+        print(drug_3)
 
 if __name__ == "__main__":
     main()
