@@ -4,7 +4,10 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader
-from mutation_dataset import MutationDataset
+
+from datasets.dataset_helper import DataCategory
+from datasets.mutation_dataset import MutationDataset
+from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
 from neural_network import Net
 
 filename = './model-data/cse527_proj_data.csv'
@@ -21,8 +24,9 @@ def main():
 
     # create train + test datasets
 
-    # first, load all data into one dataset
-    all_data_dataset = MutationDataset(filename, use_binary_labels)
+    # first, load all data into one dataset.
+    # all_data_dataset = MutationDataset(filename, use_binary_labels) # <- This is the original model (rows of concat data).
+    all_data_dataset = ShuffledMutationDataset(filename, use_binary_labels, True) # <- This is the shuffled model (shuffle OG model by subpart + flag to optionally shuffle subpart order to avoid cross-protein motifs)
 
     # randomly divide the dataset into training + test at an 80%/20% ratio.
     train_size = int(0.8 * len(all_data_dataset))
@@ -62,17 +66,17 @@ def calculate_accuracy(loader, loader_data_type, net):
             outputs = net(inputs)
 
             # get the predicted drug for each drug type
-            _, predicted_type_1 = torch.max(outputs['drug_type_1'], 1)
-            _, predicted_type_2 = torch.max(outputs['drug_type_2'], 1)
-            _, predicted_type_3 = torch.max(outputs['drug_type_3'], 1)
+            _, predicted_type_1 = torch.max(outputs[DataCategory.INI], 1)
+            _, predicted_type_2 = torch.max(outputs[DataCategory.PI], 1)
+            _, predicted_type_3 = torch.max(outputs[DataCategory.RTI], 1)
 
             # store if the predictions were correct
-            total += labels['drug_type_1'].size(0)
-            correct += (predicted_type_1 == labels['drug_type_1']).sum().item()
-            total += labels['drug_type_2'].size(0)
-            correct += (predicted_type_2 == labels['drug_type_2']).sum().item()
-            total += labels['drug_type_3'].size(0)
-            correct += (predicted_type_3 == labels['drug_type_3']).sum().item()
+            total += labels[DataCategory.INI].size(0)
+            correct += (predicted_type_1 == labels[DataCategory.INI]).sum().item()
+            total += labels[DataCategory.PI].size(0)
+            correct += (predicted_type_2 == labels[DataCategory.PI]).sum().item()
+            total += labels[DataCategory.RTI].size(0)
+            correct += (predicted_type_3 == labels[DataCategory.RTI]).sum().item()
 
     accuracy = 100 * correct / total
     print('Accuracy of the network on the ' + loader_data_type + ' sequences: %d %%' % accuracy)

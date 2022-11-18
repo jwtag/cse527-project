@@ -3,7 +3,10 @@
 import torch
 
 from torch.utils.data import DataLoader
-from mutation_dataset import MutationDataset
+
+from datasets.dataset_helper import DataCategory
+from datasets.mutation_dataset import MutationDataset
+from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
 from neural_network import Net
 
 model_data_filename = './model-data/cse527_proj_data.csv'
@@ -17,8 +20,10 @@ def main():
                               # NOTE:  THIS MUST MATCH THE LABELLING SYSTEM USED TO GENERATE THE MODELS!
 
     # get the dataset used to generate the model.
-    # (this will be used to decode the labels during the classification process)
-    original_model_dataset = MutationDataset(model_data_filename, use_binary_labels)
+    # (this will be used to decode the labels during the classification process and should be identical to what was used to generate the pt file)
+    # original_model_dataset = MutationDataset(model_data_filename, use_binary_labels) # <- This is the original model (rows of concat data).
+    original_model_dataset = ShuffledMutationDataset(model_data_filename, use_binary_labels, True) # <- This is the shuffled model (shuffle OG model by subpart + flag to optionally shuffle subpart order to avoid cross-protein motifs)
+
 
     # get a DataLoader for the sequence.
     demo_dataset = MutationDataset(demo_data_filename, use_binary_labels=use_binary_labels)
@@ -38,24 +43,24 @@ def main():
 
         # get predicted vals
         # get the predicted drug for each drug type
-        _, predicted_type_1 = torch.max(output['drug_type_1'], 1)
-        _, predicted_type_2 = torch.max(output['drug_type_2'], 1)
-        _, predicted_type_3 = torch.max(output['drug_type_3'], 1)
+        _, predicted_type_ini = torch.max(output[DataCategory.INI], 1)
+        _, predicted_type_pi = torch.max(output[DataCategory.PI], 1)
+        _, predicted_type_rti = torch.max(output[DataCategory.RTI], 1)
 
         # get the label for each val
-        predicted_val_type_1 = predicted_type_1[0].item()
-        predicted_val_type_2 = predicted_type_2[0].item()
-        predicted_val_type_3 = predicted_type_3[0].item()
+        predicted_val_type_ini = predicted_type_ini[0].item()
+        predicted_val_type_pi = predicted_type_pi[0].item()
+        predicted_val_type_rti = predicted_type_rti[0].item()
 
         # decode the labels
-        drug_1 = original_model_dataset.decode_label(predicted_val_type_1)
-        drug_2 = original_model_dataset.decode_label(predicted_val_type_2)
-        drug_3 = original_model_dataset.decode_label(predicted_val_type_3)
+        decoded_labels = original_model_dataset.decode_labels({
+            DataCategory.INI: predicted_val_type_ini,
+            DataCategory.PI: predicted_val_type_pi,
+            DataCategory.RTI: predicted_val_type_rti
+        }, False)
 
         # print classified value
-        print(drug_1)
-        print(drug_2)
-        print(drug_3)
+        print(decoded_labels)
 
 if __name__ == "__main__":
     main()

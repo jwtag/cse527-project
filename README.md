@@ -23,6 +23,12 @@ The labels in each drug type are suffixed with the category to ensure no cross-c
 
 # Remaining TODOs:
 
-get demo working with multilabeled vars
-
 get multidrug combos of one type to be split-up (ex: the drug entry is ""FTC,NRTI,RTI,TDF" for one of the three types)
+
+Look into PyTorch positional embedding
+
+Look at class imbalance blog from Alex
+
+Evaluate demo against drug types to see if any particular type is bad
+
+Add full-file model where all the data across all three files is trained for greater scope.

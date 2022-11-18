@@ -6,6 +6,9 @@ import numpy as np
 
 from torch.utils.data import Dataset
 
+from datasets.dataset_helper import LabelEncoder, get_acid_mutation_value, DataCategory
+
+
 class MutationDataset(Dataset):
     def __init__(self, mutation_csv_file, use_binary_labels):
         # create dataset dict + LabelEncoder
@@ -17,7 +20,7 @@ class MutationDataset(Dataset):
         mutation_csv_reader = csv.reader(csv_file)
 
         # first three cols = drug name.
-        # last three cols = binary indicator of previous HIV drug usage.
+        # second three cols = binary indicator of previous HIV drug usage.
 
         for mutation_csv_row in mutation_csv_reader:
             # python has each CSV row be a list of strings.
@@ -76,74 +79,17 @@ class MutationDataset(Dataset):
             label3 = self.label_encoder.encode_label(mutation_csv_row[2], 3)
 
         return {
-            'drug_type_1': label1,
-            'drug_type_2': label2,
-            'drug_type_3': label3
+            DataCategory.INI: label1,
+            DataCategory.PI: label2,
+            DataCategory.RTI: label3
         }
 
-    def decode_label(self, encoded_label):
-        return self.label_encoder.decode_label(encoded_label)
-
+    def decode_labels(self, encoded_labels_dict, include_category):
+        return {
+            DataCategory.INI: self.label_encoder.decode_label(encoded_labels_dict[DataCategory.INI], include_category),
+            DataCategory.PI: self.label_encoder.decode_label(encoded_labels_dict[DataCategory.PI], include_category),
+            DataCategory.RTI: self.label_encoder.decode_label(encoded_labels_dict[DataCategory.RTI], include_category)
+        }
 
     def get_num_acids_in_seq(self):
         return len(self.mutations[0]['mutation_seq'][0])
-
-
-# returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
-#
-# ‘-‘ = nothing is different, Ignore by returning zero
-# ‘.’ = no sequence present, Ignore by returning zero.
-# ‘<LETTER>#’ = insertion.  Ignore by returning zero.
-# ‘~’ = deletion.  Ignore by returning zero.
-# ‘<LETTER>*’ = stop codon.  If letter is present, return acid letter char value (since that indicates a change).
-#               Otherwise, ignore by returning zero.
-# ‘<LETTER>’ = one acid substitution, return the acid letter char value.
-
-def get_acid_mutation_value(acid_mutation_str):
-    if len(acid_mutation_str) == 0:  # handle any data formatting errors which create empty strings
-        return 0
-
-    # len > 1
-    elif len(acid_mutation_str) > 1:
-        # if the acid changed to a stop codon, we should return the value of the acid
-        if acid_mutation_str[1] == '*':
-            return ord(acid_mutation_str[0])
-
-        # this case == insertion or stop.  We are interested in the first character (the letter) in either case.
-        else:
-            return 0
-
-    # len == 1
-    else:
-        # we should not do anything for no-ops, no-seqs, or deletions.
-        if acid_mutation_str[0] == '-' or acid_mutation_str[0] == '.' or acid_mutation_str[0] == '~':
-            return 0
-
-        # otherwise, return the char value of the acid letter.
-        else:
-            return ord(acid_mutation_str[0])
-
-
-
-
-# class used to encode/decode labels to/from ints used by PyTorch for classification
-class LabelEncoder:
-    def __init__(self):
-        self.label2int = {}  # used for encode
-        self.int2label = {}  # used for decode
-
-    def encode_label(self, label, type_num):
-        # the label should have the drug type category appended to it.  (this is in case it shows up in multiple columns)
-        label_with_category = str(label) + "_" + str(type_num)
-
-        # add the label to the dicts if necessary
-        if label_with_category not in self.label2int:
-            label_int = len(self.label2int)
-            self.label2int[label_with_category] = label_int
-            self.int2label[label_int] = label_with_category
-
-        # return the int from the dict
-        return self.label2int[label_with_category]
-
-    def decode_label(self, label):
-        return self.int2label[label]
