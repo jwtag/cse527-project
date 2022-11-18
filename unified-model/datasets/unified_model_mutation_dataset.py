@@ -1,4 +1,4 @@
-# Represents a mutation dataset.
+# Represents a dataset containing data for patients with data for all three types.
 # Takes in a CSV of labelled mutations, then stores them.
 import csv
 import torch
@@ -6,10 +6,10 @@ import numpy as np
 
 from torch.utils.data import Dataset
 
-from datasets.dataset_helper import LabelEncoder, get_acid_mutation_value, DataCategory
+from dataset_helper import LabelEncoder, get_acid_mutation_value, DataCategory
 
 
-class MutationDataset(Dataset):
+class UnifiedModelMutationDataset(Dataset):
     def __init__(self, mutation_csv_file, use_binary_labels):
         # create dataset dict + LabelEncoder
         self.mutations = []
@@ -64,7 +64,8 @@ class MutationDataset(Dataset):
     # Obtains a dict of labels for the row.  The labels specify the drug combination the patient has.
     #
     # mutation_csv_row = row being analyzed
-    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 for each drug class.
+    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 simply representing if a drug of that type
+    #                     was used.
     #                     if false, the labels are scoped to the drugs.
     def get_multidrug_label_set(self, mutation_csv_row, use_binary_labels):
         if use_binary_labels:

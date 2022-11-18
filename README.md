@@ -1,17 +1,28 @@
 # So... what is the current state of this repo?
 
-`/model-data` contains the `.csv` which stores all the sequencing data.
+## `granular-model` vs `unified-model`
+There are two main directories:  granular-model and unified-model.
 
-There are three Python files:
-- `mutation-dataset.py` - This file is the PyTorch Dataset object which processes + stores the DNA mutations.
+The "granular" model takes in all the Stanford data and uses it to build three separate models (one for each drug type).
+This model is more useful for accurately identifying drugs.
+
+The "unified" model only takes in data for patients with data for all three drug types.  By evaluating all three data 
+types at once, this model takes into account any potential cross-category drug interactions.
+
+## What are the files in each model?
+
+Both model folders contain the following content:
+
+- `/model-data` contains the `.csv` which stores all the sequencing data.
+- `/datasets` contains the custom dataset objects used to storing the data for processing
 - `main.py` - This file is the PyTorch neural-network executable that builds the NN.
 - `demo.py` - This file is a demo which takes in a sample sequencing of the three proteins and attempts to classify the HIV drug usage.
 
-Run `main.py` to startup the NN-training code.
+To startup the NN-training code for either model, run `main.py`.
 
-# Multilabeled data.
+## Multilabeled data in `unified-model`.
 
-This classifier supports multilabeled data (each entry has a label for each drug type).
+The classifier in `unified-model` uses multilabeled data (each entry has a label for each drug type).
 
 It can run where the labels are the actual drug names, or where the labels are a simple 1/0 to indicate if that type of 
 drug is present.  To turn on the 1/0 approach, flip the `use_binary_labels` variable in `main.py`.

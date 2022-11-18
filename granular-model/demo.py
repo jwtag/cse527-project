@@ -4,13 +4,12 @@ import torch
 
 from torch.utils.data import DataLoader
 
-from datasets.dataset_helper import DataCategory
-from datasets.mutation_dataset import MutationDataset
-from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
+from dataset_helper import DataCategory
 from neural_network import Net
+from datasets.granular_model_mutation_dataset import GranularModelMutationDataset
 
-model_data_filename = './model-data/cse527_proj_data.csv'
-demo_data_filename = './model-data/demo_data.csv'
+model_data_filename = 'model-data/cse527_unified_model_data.csv'
+demo_data_filename = 'model-data/demo_data.csv'
 device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
 def main():
@@ -19,14 +18,11 @@ def main():
                               # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
                               # NOTE:  THIS MUST MATCH THE LABELLING SYSTEM USED TO GENERATE THE MODELS!
 
-    # get the dataset used to generate the model.
+    # get the datasets used to generate the models.
     # (this will be used to decode the labels during the classification process and should be identical to what was used to generate the pt file)
-    # original_model_dataset = MutationDataset(model_data_filename, use_binary_labels) # <- This is the original model (rows of concat data).
-    original_model_dataset = ShuffledMutationDataset(model_data_filename, use_binary_labels, True) # <- This is the shuffled model (shuffle OG model by subpart + flag to optionally shuffle subpart order to avoid cross-protein motifs)
-
 
     # get a DataLoader for the sequence.
-    demo_dataset = MutationDataset(demo_data_filename, use_binary_labels=use_binary_labels)
+    demo_dataset = UnifiedModelMutationDataset(demo_data_filename, use_binary_labels=use_binary_labels)
     seqLoader = DataLoader(demo_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
 
     # load model, setup net
@@ -34,7 +30,7 @@ def main():
     net = Net(acid_seq_length)
     net.to(device)
     # if the computer has cuda, load with cuda
-    net.load_state_dict(torch.load('./model_best_train.pt', map_location=device))
+    net.load_state_dict(torch.load('../model_best_train.pt', map_location=device))
 
     # get output
     for i, data in enumerate(seqLoader, 0):

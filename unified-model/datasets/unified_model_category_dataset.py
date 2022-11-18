@@ -11,10 +11,10 @@ import random
 
 from torch.utils.data import Dataset
 
-from datasets.dataset_helper import DataCategory, LabelEncoder, get_acid_mutation_value
+from dataset_helper import DataCategory, LabelEncoder, get_acid_mutation_value
 
 
-class CategoryDataset(Dataset):
+class UnifiedModelCategoryDataset(Dataset):
     def __init__(self, mutation_csv_file, use_binary_labels, category):
         # create dataset dict + LabelEncoder
         self.mutations = []
@@ -71,7 +71,8 @@ class CategoryDataset(Dataset):
     # scopes the label to the category.
     #
     # mutation_csv_row = row being analyzed
-    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 simply representing if a drug was used.
+    # use_binary_labels = if we wish for the label(s) to contain a binary 0/1 simply representing if a drug of that type
+    #                     was used.
     #                     if false, the labels are scoped to the drugs.
     # category = the drug category for which we're pulling the label.  use the category constants defined in this class.
     def get_label(self, mutation_csv_row, use_binary_labels, category):

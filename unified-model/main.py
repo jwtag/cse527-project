@@ -5,12 +5,11 @@ import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader
 
-from datasets.dataset_helper import DataCategory
-from datasets.mutation_dataset import MutationDataset
+from dataset_helper import DataCategory
 from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
 from neural_network import Net
 
-filename = './model-data/cse527_proj_data.csv'
+filename = 'model-data/cse527_unified_model_data.csv'
 
 device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
@@ -50,7 +49,7 @@ def main():
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
 
-    # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, save it to disk.
+    # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, it is saved to disk.
     train(trainloader, testloader, net, optimizer)
 
 # Calculates the accuracy given a data loader and a neural network
@@ -138,14 +137,14 @@ def train(trainloader, testloader, net, optimizer):
         # update stored model if new best
         if best_test < test_accuracy:
             best_test = test_accuracy
-            torch.save(net.state_dict(), "model_best_test.pt")
+            torch.save(net.state_dict(), "../model_best_test.pt")
         if best_train < train_accuracy:
             best_train = train_accuracy
-            torch.save(net.state_dict(), "model_best_train.pt")
+            torch.save(net.state_dict(), "../model_best_train.pt")
         if best_balanced_train <= train_accuracy and best_balanced_test <= test_accuracy:
             best_balanced_train = train_accuracy
             best_balanced_test = test_accuracy
-            torch.save(net.state_dict(), "model_best_balanced.pt")
+            torch.save(net.state_dict(), "../model_best_balanced.pt")
         train_accuracies.append(train_accuracy)
         test_accuracies.append(test_accuracy)
         epochs.append(epoch)
