@@ -8,9 +8,11 @@ import torch
 import random
 
 from torch.utils.data import Dataset
-
-from datasets.category_dataset import DataCategory, CategoryDataset
-from datasets.dataset_helper import LabelEncoder
+# Due to how we have the directory structure configured in main.py (it's custom to access the dataset_helper),
+# we need to adjust this import to be at that scope.
+# This means we have to include the "datasets." prefix, otherwise the interpreter cannot find the UnifiedModelCategoryDataset.
+from datasets.unified_model_category_dataset import UnifiedModelCategoryDataset
+from dataset_helper import DataCategory, LabelEncoder
 
 
 # Like `mutation_dataset`, this class takes in the combined overlapping dataset CSV file (where each patient has entries
@@ -25,9 +27,9 @@ class ShuffledMutationDataset(Dataset):
         self.label_encoder = LabelEncoder()
 
         # Get datasets for each category.
-        self.ini_dataset = CategoryDataset(mutation_csv_file, use_binary_labels, DataCategory.INI)
-        self.pi_dataset = CategoryDataset(mutation_csv_file, use_binary_labels, DataCategory.PI)
-        self.rti_dataset = CategoryDataset(mutation_csv_file, use_binary_labels, DataCategory.RTI)
+        self.ini_dataset = UnifiedModelCategoryDataset(mutation_csv_file, use_binary_labels, DataCategory.INI)
+        self.pi_dataset = UnifiedModelCategoryDataset(mutation_csv_file, use_binary_labels, DataCategory.PI)
+        self.rti_dataset = UnifiedModelCategoryDataset(mutation_csv_file, use_binary_labels, DataCategory.RTI)
 
         # Get the number of mutation combos in the resultant dataset.
         num_mutation_combos = len(self.ini_dataset)

@@ -1,11 +1,13 @@
 # this file contains various values + methods + classes shared across the dataset classes
 from enum import IntEnum
 
+
 # This Enum should be used whenever labelling/referring to drug categories.
 class DataCategory(IntEnum):
     INI = 0
     PI = 1
     RTI = 2
+    NO_CATEGORY = 3
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
 #

@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from datasets.dataset_helper import DataCategory
+from dataset_helper import DataCategory
 
 
 # Our neural network definition
