@@ -58,15 +58,12 @@ def evaluate_drug_model(filename, category):
         # analyze the labels, update the failure dict as necessary
         check_and_update(expected_labels, predicted_drug_tensor, dataset, dataset, failure_dict)
 
-        # progress statement
-        if i % 100 == 0:
-            print('Completed iteration ' + str(i))
-
     # now that all data has been obtained, let's sort the dict.
     failure_dict, total_failures = sort_dict(failure_dict)
 
     # finally, let's print out the results.
     print_dict_results(failure_dict, category)
+    print(str(category) + " total failures:  " + total_failures)
 
 
 def print_dict_results(dict, category):

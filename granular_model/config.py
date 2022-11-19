@@ -10,13 +10,14 @@ class GranularConfig:
     learning_rate = 0.00005
     training_data_proportion = 0.8
     testing_data_proportion = 0.2
-    use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
+    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
                                # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
     num_training_epochs = 70
 
     # neural network configs
     kernel_size = 5  # size of the kernel to look with at the data.  kernel is used to look at multiple datapoints at once.  arbitrarily choosing 5, may change in the future.
     num_filters = 32  # number of out_channels from conv1 layer.  This number is chosen based off of intuition.
+    final_num_out_channels = 1000  # number of out_channels for final layer.  This number is chosen based off of intuition and must be larger than the acid seq len or PyTorch will break.
 
     # eval configs
     num_results_to_print_per_dict = 10  # number of results to print per dict at end of evaluation.py.

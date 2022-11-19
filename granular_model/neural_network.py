@@ -17,7 +17,7 @@ class Net(nn.Module):
         self.conv1 = nn.Conv1d(in_channels=1, out_channels=GranularConfig.num_filters, kernel_size=GranularConfig.kernel_size)
         self.relu = nn.ReLU(inplace=True)
         self.flatten = nn.Flatten()
-        self.linear1 = nn.Linear(in_features=GranularConfig.num_filters * (acid_seq_length - GranularConfig.kernel_size + 1), out_features=acid_seq_length)
+        self.linear1 = nn.Linear(in_features=GranularConfig.num_filters * (acid_seq_length - GranularConfig.kernel_size + 1), out_features=1000)
 
     def forward(self, x):
         # TODO:  Maybe add more layers in the future, but this works for now.

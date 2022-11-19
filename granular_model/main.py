@@ -30,7 +30,7 @@ def create_and_save_nn(category, filename):
     all_data_dataset = GranularModelMutationDataset(filename, GranularConfig.use_binary_labels)
 
     # randomly divide the dataset into training + test at an 80%/20% ratio.
-    train_size = int(0.8 * len(all_data_dataset))
+    train_size = int(GranularConfig.training_data_proportion * len(all_data_dataset))
     test_size = len(all_data_dataset) - train_size
     train_dataset, test_dataset = torch.utils.data.random_split(all_data_dataset, [train_size, test_size])
 
@@ -113,7 +113,6 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
 
             # forward + backward + optimize
             outputs = net(inputs)
-            # print(outputs.shape, labels.shape)
             loss = criterion(outputs, labels)
             loss.to(GranularConfig.device)
             loss.backward()
