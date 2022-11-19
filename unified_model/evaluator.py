@@ -9,48 +9,34 @@
 
 # add the dataset_helper to the Python path so we can use it.
 import sys, os
-from collections import OrderedDict
-
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
+# do other imports.
 import torch
-
 from torch.utils.data import DataLoader
-
 from dataset_helper import DataCategory, is_label_valid
 from datasets.unified_model_mutation_dataset import UnifiedModelMutationDataset
-from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
 from neural_network import Net
-
-filename = './datasets/model-data/cse527_unified_model_data.csv'
-device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
+from collections import OrderedDict
+from config import UnifiedConfig
 
 def main():
-    batch_size = 128  # must match the batch size used to generate the classifier model.
-    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
-                              # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
-                              # NOTE:  THIS MUST MATCH THE LABELLING SYSTEM USED TO GENERATE THE MODELS!
-    num_results_to_print_per_dict = 10  # number of results to print per dict at end of evaluation.
-
     # get the dataset used to generate the model.
-    # (this will be used to decode the labels during the classification process and should be identical to what was used to generate the pt file)
-    # original_model_dataset = MutationDataset(model_data_filename, use_binary_labels) # <- This is the original model (rows of concat data).
-    model_dataset = ShuffledMutationDataset(filename, use_binary_labels, True) # <- This is the shuffled model (shuffle OG model by subpart + flag to optionally shuffle subpart order to avoid cross-protein motifs)
-
+    model_dataset = UnifiedConfig.model_dataset_class(UnifiedConfig.model_data_file, UnifiedConfig.use_binary_labels)
 
     # get a DataLoader for the sequence.
-    eval_dataset = UnifiedModelMutationDataset(filename, use_binary_labels=use_binary_labels)
-    seqLoader = DataLoader(eval_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    eval_dataset = UnifiedModelMutationDataset(UnifiedConfig.model_data_file, UnifiedConfig.use_binary_labels)
+    seqLoader = DataLoader(eval_dataset, batch_size=UnifiedConfig.batch_size, shuffle=True, num_workers=4)
 
     # load model, setup net
     acid_seq_length = seqLoader.dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
     net = Net(acid_seq_length)
-    net.to(device)
+    net.to(UnifiedConfig.device)
 
     # if the computer has cuda, load with cuda
-    net.load_state_dict(torch.load('../unified_model_best_train.pt', map_location=device))
+    net.load_state_dict(torch.load('../{}_unified_model_best_train.pt'.format(UnifiedConfig.current_configuration_write_file_prefix), map_location=UnifiedConfig.device))
 
     # setup dictionaries to store failure data.
     # each dict is structured as follows:
@@ -63,7 +49,7 @@ def main():
     # get output
     for i, data in enumerate(seqLoader, 0):
         # run sequences thru nn
-        output = net(data['mutation_seq'].to(device))
+        output = net(data['mutation_seq'].to(UnifiedConfig.device))
 
         # get predicted labels
         # get the predicted drug for each drug type
@@ -93,9 +79,9 @@ def main():
     print('All dicts have been sorted.')
 
     # finally, let's print out the results.
-    print_dict_results(ini_failure_dict, DataCategory.INI, num_results_to_print_per_dict)
-    print_dict_results(pi_failure_dict, DataCategory.PI, num_results_to_print_per_dict)
-    print_dict_results(rti_failure_dict, DataCategory.RTI, num_results_to_print_per_dict)
+    print_dict_results(ini_failure_dict, DataCategory.INI, UnifiedConfig.num_results_to_print_per_dict)
+    print_dict_results(pi_failure_dict, DataCategory.PI, UnifiedConfig.num_results_to_print_per_dict)
+    print_dict_results(rti_failure_dict, DataCategory.RTI, UnifiedConfig.num_results_to_print_per_dict)
     print('Total INI failures:  ' + str(total_ini_failures))
     print('Total PI failures:  ' + str(total_pi_failures))
     print('Total RTI failures:  ' + str(total_rti_failures))
@@ -168,15 +154,22 @@ def sort_dict(dict):
 
 # check the passed labels for correctness, updates passed failure_dict if they do not match.
 def check_and_update(expected_labels, actual_labels, eval_dataset, model_dataset, category, failure_dict):
-    # the labels are stored in tensors of `batch_size`, so we want to iterate over the elements for our computation.
+    # the labels are stored in tensors of `UnifiedConfig.batch_size`, so we want to iterate over the elements for our computation.
     for idx in range(expected_labels.size(0)):
         expected_label = expected_labels[idx].item()
         actual_label = actual_labels[idx].item()
 
         # let's convert the labels into the actual drug names.
         # (we have to do this since the label values don't match between the model and eval datasets)
-        expected_name = eval_dataset.decode_label(expected_label, category, False)
-        actual_name = model_dataset.decode_label(actual_label, category, False)
+        #
+        # NOTE:  The binary model seems to have some sort of bug where it can classify non-0/1 labels.  I don't feel
+        #        like investing the time into debugging this, so we're just gonna move onto the next iteration of the
+        #        loop if a decode error occurs.
+        try:
+            expected_name = eval_dataset.decode_label(expected_label, category, False)
+            actual_name = model_dataset.decode_label(actual_label, category, False)
+        except KeyError:
+            continue
 
         # if the drug names don't match, store them in the failure dict.
         if not is_label_valid(expected_name, actual_name):

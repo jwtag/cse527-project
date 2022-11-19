@@ -10,55 +10,44 @@
 # add the parent directory to the Python path so we can use dataset_helper.
 import sys, os
 from collections import OrderedDict
-
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
+# other imports.
 import torch
 from torch.utils.data import DataLoader
 from dataset_helper import DataCategory, is_label_valid
+from config import GranularConfig
 from neural_network import Net
 from datasets.granular_model_mutation_dataset import GranularModelMutationDataset
 
-ini_filename = './datasets/model-data/IN.csv'
-pi_filename = './datasets/model-data/PR.csv'
-rti_filename = './datasets/model-data/RT.csv'
-demo_data_filename = './datasets/model-data/demo_data.csv'
-device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
-
 def main():
-    batch_size = 128  # must match the batch size used to generate the classifier model.
-    use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
-                              # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
-                              # NOTE:  THIS MUST MATCH THE LABELLING SYSTEM USED TO GENERATE THE MODELS!
-    max_num_results_to_print_per_dict = 10  # number of results to print per dict at end of evaluation.
-
     # decode the labels
-    evaluate_drug_model(ini_filename, DataCategory.INI, batch_size, use_binary_labels, max_num_results_to_print_per_dict)
-    evaluate_drug_model(pi_filename, DataCategory.PI, batch_size, use_binary_labels, max_num_results_to_print_per_dict)
-    evaluate_drug_model(rti_filename, DataCategory.RTI, batch_size, use_binary_labels, max_num_results_to_print_per_dict)
+    evaluate_drug_model(GranularConfig.ini_data_file, DataCategory.INI)
+    evaluate_drug_model(GranularConfig.pi_data_file, DataCategory.PI)
+    evaluate_drug_model(GranularConfig.rti_data_file, DataCategory.RTI)
 
 
-def evaluate_drug_model(filename, category, batch_size, use_binary_labels, max_num_results_to_print_per_dict):
+def evaluate_drug_model(filename, category):
     # load the dataset containing the data used both for testing + the model.
-    dataset = GranularModelMutationDataset(filename, use_binary_labels)
+    dataset = GranularModelMutationDataset(filename, GranularConfig.use_binary_labels)
 
     # put the dataset into the DataLoader
-    seqLoader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    seqLoader = DataLoader(dataset, batch_size=GranularConfig.batch_size, shuffle=True, num_workers=4)
 
     # load models, setup net
     acid_seq_length = dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
     net = Net(acid_seq_length)
-    net.to(device)
-    net.load_state_dict(torch.load('../{}_model_best_train.pt'.format(str(category)), map_location=device))
+    net.to(GranularConfig.device)
+    net.load_state_dict(torch.load('../{}_model_best_train.pt'.format(str(category)), map_location=GranularConfig.device))
 
     # create a dict for storing failure data.
     failure_dict = {}
 
     # get mutation_seq_tensor
     for i, data in enumerate(seqLoader, 0):
-        output = net(data[0].to(device))
+        output = net(data[0].to(GranularConfig.device))
 
         # get predicted vals
         _, predicted_drug_tensor = torch.max(output, 1)
@@ -77,14 +66,14 @@ def evaluate_drug_model(filename, category, batch_size, use_binary_labels, max_n
     failure_dict, total_failures = sort_dict(failure_dict)
 
     # finally, let's print out the results.
-    print_dict_results(failure_dict, category, max_num_results_to_print_per_dict)
+    print_dict_results(failure_dict, category)
 
 
-def print_dict_results(dict, category, max_num_results_to_print_per_dict):
+def print_dict_results(dict, category):
     print(str(category) + ':')
 
     # tracks how many subdicts left to print.
-    subdict_counter = max_num_results_to_print_per_dict
+    subdict_counter = GranularConfig.num_results_to_print_per_dict
     for subdict_name in dict:
         # break if we hit the print limit.
         if subdict_counter <= 0:
@@ -94,7 +83,7 @@ def print_dict_results(dict, category, max_num_results_to_print_per_dict):
         print('\t' + subdict_name + ':')
 
         # tracks how many incorrect labels left to print.
-        incorrect_label_counter = max_num_results_to_print_per_dict
+        incorrect_label_counter = GranularConfig.num_results_to_print_per_dict
 
         # iterate over subdict results.
         for incorrect_label_name in dict[subdict_name]:
@@ -147,7 +136,7 @@ def sort_dict(dict):
 
 # check the passed labels for correctness, updates passed failure_dict if they do not match.
 def check_and_update(expected_labels, actual_labels, eval_dataset, model_dataset, failure_dict):
-    # the labels are stored in tensors of `batch_size`, so we want to iterate over the elements for our computation.
+    # the labels are stored in tensors of `GranularConfig.batch_size`, so we want to iterate over the elements for our computation.
     for idx in range(expected_labels.size(0)):
         expected_label = expected_labels[idx].item()
         actual_label = actual_labels[idx].item()

@@ -19,6 +19,8 @@ Both model folders contain the following content:
 - `demo.py` - This file is a demo which takes in a sample sequencing of the three proteins and attempts to classify the HIV drug usage.
 - `evaluator.py` - This file evaluates + prints out stats detailing how well the model classifies the full dataset(s).
 
+Both files are able to be configured via the config.py file in the root directory.
+
 To startup the NN-training code for either model, run `main.py`.
 
 ## Multilabeled data in `unified-model`.
@@ -26,7 +28,7 @@ To startup the NN-training code for either model, run `main.py`.
 The classifier in `unified-model` uses multilabeled data (each entry has a label for each drug type).
 
 It can run where the labels are the actual drug names, or where the labels are a simple 1/0 to indicate if that type of 
-drug is present.  To turn on the 1/0 approach, flip the `use_binary_labels` variable in `main.py`.
+drug is present.  To turn on the 1/0 approach, flip the `UnifiedConfig.use_binary_labels` variable in `main.py`.
 
 While there _are_ fancy libraries out there for handling this, I chose to do this via having three separate sub-classifiers
 which aggregate their results.  [I developed this approach by following this guide.](https://towardsdatascience.com/multilabel-classification-with-pytorch-in-5-minutes-a4fa8993cbc7)
@@ -35,9 +37,7 @@ The labels in each drug type are suffixed with the category to ensure no cross-c
 
 # Remaining TODOs:
 
-Look into PyTorch positional embedding
-
-Look at class imbalance blog from Alex
+See what's going on with Granular non-binary-labelling.
 
 obtain performance data for:
 - multilabel unified model

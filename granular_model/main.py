@@ -4,41 +4,30 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
+# other imports.
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-
 from torch.utils.data import DataLoader
-
 from dataset_helper import DataCategory
+from config import GranularConfig
 from neural_network import Net
 from datasets.granular_model_mutation_dataset import GranularModelMutationDataset
 
 
-device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
-
 def main():
-    learning_rate = 0.00005
-    momentum = 0.9
-    batch_size = 128
-    use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
-                               # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
-    ini_filename = './datasets/model-data/IN.csv'
-    pi_filename = './datasets/model-data/PR.csv'
-    rti_filename = './datasets/model-data/RT.csv'
-
-    create_and_save_nn(DataCategory.INI, ini_filename, learning_rate, momentum, batch_size, use_binary_labels)
-    create_and_save_nn(DataCategory.PI, pi_filename, learning_rate, momentum, batch_size, use_binary_labels)
-    create_and_save_nn(DataCategory.RTI, rti_filename, learning_rate, momentum, batch_size, use_binary_labels)
+    create_and_save_nn(DataCategory.INI, GranularConfig.ini_data_file)
+    create_and_save_nn(DataCategory.PI, GranularConfig.pi_data_file)
+    create_and_save_nn(DataCategory.RTI, GranularConfig.rti_data_file)
 
 
 # creates, iterates, and saves a nn for the data for the specified category + file
-def create_and_save_nn(category, filename, learning_rate, momentum, batch_size, use_binary_labels):
+def create_and_save_nn(category, filename):
     # create train + test datasets
 
     # first, load the data into one dataset.
-    all_data_dataset = GranularModelMutationDataset(filename, use_binary_labels)
+    all_data_dataset = GranularModelMutationDataset(filename, GranularConfig.use_binary_labels)
 
     # randomly divide the dataset into training + test at an 80%/20% ratio.
     train_size = int(0.8 * len(all_data_dataset))
@@ -49,23 +38,23 @@ def create_and_save_nn(category, filename, learning_rate, momentum, batch_size, 
 
     # batch_size = the sizes of the batches of data being processed at-a-time
     # shuffle = shuffle the data to prevent any sort of ordering bias
-    trainloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
-    testloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    trainloader = DataLoader(train_dataset, batch_size=GranularConfig.batch_size, shuffle=True, num_workers=4)
+    testloader = DataLoader(test_dataset, batch_size=GranularConfig.batch_size, shuffle=True, num_workers=4)
 
 
     # setup the neural network.
     acid_seq_length = all_data_dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
     net = Net(acid_seq_length)
-    net.to(device)
+    net.to(GranularConfig.device)
 
 
     # setup the loss function used to evaluate the model's accuracy.
     criterion = nn.CrossEntropyLoss()
-    criterion.to(device)
+    criterion.to(GranularConfig.device)
 
 
     # setup an optimizer to speed-up the model's performance.
-    optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
+    optimizer = optim.SGD(net.parameters(), lr=GranularConfig.learning_rate, momentum=GranularConfig.momentum)
 
 
     # Train the model + refine it.  If the model has the best accuracy seen so far on the datasets, it is saved to disk.
@@ -82,7 +71,7 @@ def calculate_accuracy(category, loader, loader_data_type, net):
     total = 0
     with torch.no_grad():
         for data in loader:
-            inputs, labels = data[0].to(device), data[1].to(device)
+            inputs, labels = data[0].to(GranularConfig.device), data[1].to(GranularConfig.device)
             outputs = net(inputs)
             _, predicted = torch.max(outputs, 1)
             total += labels.size(0)
@@ -110,14 +99,14 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
     # (we do this to have a model that isn't overfit)
     best_balanced_train = 0
     best_balanced_test = 0
-    while epoch < 1 and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
+    while epoch < GranularConfig.num_training_epochs and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
         print("Epoch " + str(epoch + 1))
         for i, data in enumerate(trainloader, 0):
 
             # get the inputs; "data" is just an object containing a list of [acid values array, treatment label]
             # these should "just work" with tensors, which is good
-            inputs = data[0].to(device)
-            labels = data[1].to(device)
+            inputs = data[0].to(GranularConfig.device)
+            labels = data[1].to(GranularConfig.device)
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -126,7 +115,7 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
             outputs = net(inputs)
             # print(outputs.shape, labels.shape)
             loss = criterion(outputs, labels)
-            loss.to(device)
+            loss.to(GranularConfig.device)
             loss.backward()
             optimizer.step()
             if i % 100 == 0:
