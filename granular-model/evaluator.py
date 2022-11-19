@@ -17,7 +17,7 @@ sys.path.append(parentdir)
 
 import torch
 from torch.utils.data import DataLoader
-from dataset_helper import DataCategory
+from dataset_helper import DataCategory, is_label_valid
 from neural_network import Net
 from datasets.granular_model_mutation_dataset import GranularModelMutationDataset
 
@@ -165,7 +165,7 @@ def check_and_update(expected_labels, actual_labels, eval_dataset, model_dataset
             continue
 
         # if the drug names don't match, store them in the failure dict.
-        if expected_name != actual_name:
+        if not is_label_valid(expected_name, actual_name):
             # get the dict for the expected label (if one exists).  if none exists, use an empty dict.
             mislabel_occurrence_dict = failure_dict.get(expected_name, {})
 

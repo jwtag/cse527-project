@@ -35,10 +35,12 @@ The labels in each drug type are suffixed with the category to ensure no cross-c
 
 # Remaining TODOs:
 
-get multidrug combos of one type to be split-up (ex: the drug entry is ""FTC,NRTI,RTI,TDF" for one of the three types)
-
 Look into PyTorch positional embedding
 
 Look at class imbalance blog from Alex
 
-obtain performance data
+obtain performance data for:
+- multilabel unified model
+- single unified model
+- granular model
+- ALL THE ABOVE IN BINARY CLASSIFICATION
