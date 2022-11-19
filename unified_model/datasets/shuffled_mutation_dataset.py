@@ -22,7 +22,7 @@ class ShuffledMutationDataset(Dataset):
 
     # shuffle_ordering = should we shuffle the ordering of the proteins + labels in the string used for modelling.  that
     # way INI/PI/RTI ordering isn't consistent and accidentally creating motifs identified by the network.
-    def __init__(self, mutation_csv_file, use_binary_labels, shuffle_ordering):
+    def __init__(self, mutation_csv_file, use_binary_labels, shuffle_ordering=True):
         self.mutations = []
         self.label_encoder = LabelEncoder()
 
@@ -69,6 +69,16 @@ class ShuffledMutationDataset(Dataset):
 
     def __getitem__(self, idx):
         return self.mutations[idx]
+
+
+    def decode_label(self, label, category, include_category):
+        if category == DataCategory.INI:
+            return self.ini_dataset.decode_label(label, include_category)
+        elif category == DataCategory.PI:
+            return self.pi_dataset.decode_label(label, include_category)
+        elif category == DataCategory.RTI:
+            return self.rti_dataset.decode_label(label, include_category)
+
 
     def decode_labels(self, encoded_labels_dict, include_category):
         return {

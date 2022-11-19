@@ -85,6 +85,11 @@ class UnifiedModelMutationDataset(Dataset):
             DataCategory.RTI: label3
         }
 
+    # we only include category to allow for interchangability with the suffled dataset.  the param is unused in this method.
+    def decode_label(self, label, category, include_category):
+        return self.label_encoder.decode_label(label, include_category)
+
+
     def decode_labels(self, encoded_labels_dict, include_category):
         return {
             DataCategory.INI: self.label_encoder.decode_label(encoded_labels_dict[DataCategory.INI], include_category),

@@ -6,46 +6,33 @@ currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 
+# do other imports.
 import torch
-
+from dataset_helper import DataCategory
+from neural_network import Net
+from config import UnifiedConfig
+from unified_model.datasets.unified_model_mutation_dataset import UnifiedModelMutationDataset
 from torch.utils.data import DataLoader
 
-from dataset_helper import DataCategory
-from datasets.unified_model_mutation_dataset import UnifiedModelMutationDataset
-from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
-from neural_network import Net
-
-model_data_filename = './datasets/model-data/cse527_unified_model_data.csv'
-demo_data_filename = './datasets/model-data/demo_data.csv'
-device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
-
 def main():
-    batch_size = 128  # must match the batch size used to generate the classifier model.
-    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
-                              # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
-                              # NOTE:  THIS MUST MATCH THE LABELLING SYSTEM USED TO GENERATE THE MODELS!
-
     # get the dataset used to generate the model.
-    # (this will be used to decode the labels during the classification process and should be identical to what was used to generate the pt file)
-    # original_model_dataset = MutationDataset(model_data_filename, use_binary_labels) # <- This is the original model (rows of concat data).
-    original_model_dataset = ShuffledMutationDataset(model_data_filename, use_binary_labels, True) # <- This is the shuffled model (shuffle OG model by subpart + flag to optionally shuffle subpart order to avoid cross-protein motifs)
-
+    original_model_dataset = UnifiedConfig.model_dataset_class(UnifiedConfig.model_data_file, UnifiedConfig.use_binary_labels)
 
     # get a DataLoader for the sequence.
-    demo_dataset = UnifiedModelMutationDataset(demo_data_filename, use_binary_labels=use_binary_labels)
-    seqLoader = DataLoader(demo_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+    demo_dataset = UnifiedModelMutationDataset(UnifiedConfig.demo_data_file, UnifiedConfig.use_binary_labels)
+    seqLoader = DataLoader(demo_dataset, batch_size=UnifiedConfig.batch_size, shuffle=True, num_workers=4)
 
     # load model, setup net
     acid_seq_length = seqLoader.dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
     net = Net(acid_seq_length)
-    net.to(device)
+    net.to(UnifiedConfig.device)
     # if the computer has cuda, load with cuda
-    net.load_state_dict(torch.load('../unified_model_best_train.pt', map_location=device))
+    net.load_state_dict(torch.load('../{}_unified_model_best_train.pt'.format(UnifiedConfig.current_configuration_write_file_prefix), map_location=UnifiedConfig.device))
 
     # get output
     for i, data in enumerate(seqLoader, 0):
         # run sequences thru nn
-        output = net(data['mutation_seq'].to(device))
+        output = net(data['mutation_seq'].to(UnifiedConfig.device))
 
         # get predicted vals
         # get the predicted drug for each drug type

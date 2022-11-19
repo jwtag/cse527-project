@@ -44,7 +44,19 @@ def get_acid_mutation_value(acid_mutation_str):
             return ord(acid_mutation_str[0])
 
 
+# returns if the provided label is "valid".
+#
+# a computed label is valid if it contains _any_ drugs which are in the drug combination specified in the other label.
+#
+# This method is not meant to be used for model generation:  it's meant to be used by the evaluator.py files.
+def is_label_valid(expected_label, computed_label):
+    # split-up the computed_label into a list of drugs
+    computed_label_drugs = computed_label.split(',')
 
+    # split-up the expected_label into a list of drugs
+    expected_label_drugs = expected_label.split(',')
+
+    return len(list(set(computed_label_drugs) & set(expected_label_drugs))) != 0
 
 # class used to encode/decode labels to/from ints used by PyTorch for classification
 class LabelEncoder:
