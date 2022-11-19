@@ -1,16 +1,22 @@
 # This script can be used to demonstrate the classifier by taking in input data + outputting a classification in the CLI.
 
+# add the dataset_helper to the Python path so we can use it.
+import sys, os
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+
 import torch
 
 from torch.utils.data import DataLoader
 
-from datasets.dataset_helper import DataCategory
-from datasets.mutation_dataset import MutationDataset
+from dataset_helper import DataCategory
+from datasets.unified_model_mutation_dataset import UnifiedModelMutationDataset
 from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
 from neural_network import Net
 
-model_data_filename = './model-data/cse527_proj_data.csv'
-demo_data_filename = './model-data/demo_data.csv'
+model_data_filename = './datasets/model-data/cse527_unified_model_data.csv'
+demo_data_filename = './datasets/model-data/demo_data.csv'
 device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
 def main():
@@ -26,7 +32,7 @@ def main():
 
 
     # get a DataLoader for the sequence.
-    demo_dataset = MutationDataset(demo_data_filename, use_binary_labels=use_binary_labels)
+    demo_dataset = UnifiedModelMutationDataset(demo_data_filename, use_binary_labels=use_binary_labels)
     seqLoader = DataLoader(demo_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
 
     # load model, setup net
@@ -34,7 +40,7 @@ def main():
     net = Net(acid_seq_length)
     net.to(device)
     # if the computer has cuda, load with cuda
-    net.load_state_dict(torch.load('./model_best_train.pt', map_location=device))
+    net.load_state_dict(torch.load('../unified_model_best_train.pt', map_location=device))
 
     # get output
     for i, data in enumerate(seqLoader, 0):

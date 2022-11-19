@@ -1,7 +1,10 @@
 # This script can be used to demonstrate the classifier by taking in input data + outputting a classification in the CLI.
 
 # add the parent directory to the Python path so we can use dataset_helper.
-import sys, os, inspect
+import sys, os
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
 
 from torch.utils.data import DataLoader
 

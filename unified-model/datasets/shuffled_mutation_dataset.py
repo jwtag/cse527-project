@@ -8,8 +8,10 @@ import torch
 import random
 
 from torch.utils.data import Dataset
-
-from unified_model_category_dataset import UnifiedModelCategoryDataset
+# Due to how we have the directory structure configured in main.py (it's custom to access the dataset_helper),
+# we need to adjust this import to be at that scope.
+# This means we have to include the "datasets." prefix, otherwise the interpreter cannot find the UnifiedModelCategoryDataset.
+from datasets.unified_model_category_dataset import UnifiedModelCategoryDataset
 from dataset_helper import DataCategory, LabelEncoder
 
 

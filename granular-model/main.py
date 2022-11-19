@@ -1,8 +1,8 @@
 # add the parent directory to the Python path so we can use dataset_helper.
-import sys, os, inspect
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+import sys, os
+currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
+sys.path.append(parentdir)
 
 import torch
 import torch.nn as nn
