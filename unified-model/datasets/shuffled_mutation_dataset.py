@@ -70,6 +70,16 @@ class ShuffledMutationDataset(Dataset):
     def __getitem__(self, idx):
         return self.mutations[idx]
 
+
+    def decode_label(self, label, category, include_category):
+        if category == DataCategory.INI:
+            return self.ini_dataset.decode_label(label, include_category)
+        elif category == DataCategory.PI:
+            return self.pi_dataset.decode_label(label, include_category)
+        elif category == DataCategory.RTI:
+            return self.rti_dataset.decode_label(label, include_category)
+
+
     def decode_labels(self, encoded_labels_dict, include_category):
         return {
             DataCategory.INI: self.ini_dataset.decode_label(encoded_labels_dict[DataCategory.INI], include_category),

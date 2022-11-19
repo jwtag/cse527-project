@@ -1,5 +1,8 @@
 # add the dataset_helper to the Python path so we can use it.
 import sys, os
+
+import numpy as np
+
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
