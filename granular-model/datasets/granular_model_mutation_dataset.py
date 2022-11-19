@@ -5,7 +5,7 @@ import numpy as np
 
 from torch.utils.data import Dataset
 
-from dataset_helper import LabelEncoder, get_acid_mutation_value
+from dataset_helper import LabelEncoder, get_acid_mutation_value, DataCategory
 
 
 class GranularModelMutationDataset(Dataset):
@@ -17,9 +17,6 @@ class GranularModelMutationDataset(Dataset):
         # read in the csv
         csv_file = open(mutation_csv_file)
         mutation_csv_reader = csv.reader(csv_file)
-
-        # first three cols = drug name.
-        # last three cols = binary indicator of previous HIV drug usage.
 
         for mutation_csv_row in mutation_csv_reader:
             # python has each CSV row be a list of strings.
@@ -64,10 +61,10 @@ class GranularModelMutationDataset(Dataset):
     #                     if false, the labels are scoped to the drugs.
     def get_label(self, mutation_csv_row, use_binary_labels):
         if (use_binary_labels):
-            return 0 if mutation_csv_row[0] == "None" else 1
+            return self.label_encoder.encode_label(0 if mutation_csv_row[0] == "None" else 1, DataCategory.NO_CATEGORY)
         else:
             # return a set containing a label solely for the combo
-            return mutation_csv_row[0]
+            return self.label_encoder.encode_label(mutation_csv_row[0], DataCategory.NO_CATEGORY)
 
     def decode_label(self, label):
         return self.label_encoder.decode_label(label, False)

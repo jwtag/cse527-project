@@ -13,8 +13,8 @@ types at once, this model takes into account any potential cross-category drug i
 
 Both model folders contain the following content:
 
-- `/model-data` contains the `.csv` which stores all the sequencing data.
 - `/datasets` contains the custom dataset objects used to storing the data for processing
+- `/datasets/model-data` contains the `.csv` which stores all the protein sequencing data for training/testing/etc.
 - `main.py` - This file is the PyTorch neural-network executable that builds the NN.
 - `demo.py` - This file is a demo which takes in a sample sequencing of the three proteins and attempts to classify the HIV drug usage.
 
@@ -41,5 +41,3 @@ Look into PyTorch positional embedding
 Look at class imbalance blog from Alex
 
 Evaluate demo against drug types to see if any particular type is bad
-
-Add full-file model where all the data across all three files is trained for greater scope.

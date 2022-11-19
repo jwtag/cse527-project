@@ -1,4 +1,4 @@
-# add the dataset_helper to the Python path so we can use it.
+# add the parent directory to the Python path so we can use dataset_helper.
 import sys, os, inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -110,7 +110,7 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
     # (we do this to have a model that isn't overfit)
     best_balanced_train = 0
     best_balanced_test = 0
-    while epoch < 75 and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
+    while epoch < 70 and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
         print("Epoch " + str(epoch + 1))
         for i, data in enumerate(trainloader, 0):
 
@@ -161,7 +161,6 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
     plt.legend(["Train", "Test"])
     plt.title("Model Accuracy per Epoch")
     plt.savefig("{}_chart.png".format(str(category)))
-    plt.show()
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ class DataCategory(IntEnum):
     INI = 0
     PI = 1
     RTI = 2
+    NO_CATEGORY = 3
 
 # returns a numerical value we can use to represent the acid at the position. This method follows the below pattern:
 #

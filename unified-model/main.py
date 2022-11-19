@@ -143,14 +143,14 @@ def train(trainloader, testloader, net, optimizer):
         # update stored model if new best
         if best_test < test_accuracy:
             best_test = test_accuracy
-            torch.save(net.state_dict(), "../model_best_test.pt")
+            torch.save(net.state_dict(), "../unified_model_best_test.pt")
         if best_train < train_accuracy:
             best_train = train_accuracy
-            torch.save(net.state_dict(), "../model_best_train.pt")
+            torch.save(net.state_dict(), "../unified_model_best_train.pt")
         if best_balanced_train <= train_accuracy and best_balanced_test <= test_accuracy:
             best_balanced_train = train_accuracy
             best_balanced_test = test_accuracy
-            torch.save(net.state_dict(), "../model_best_balanced.pt")
+            torch.save(net.state_dict(), "../unified_model_best_balanced.pt")
         train_accuracies.append(train_accuracy)
         test_accuracies.append(test_accuracy)
         epochs.append(epoch)
@@ -164,7 +164,6 @@ def train(trainloader, testloader, net, optimizer):
     plt.legend(["Train", "Test"])
     plt.title("Model Accuracy per Epoch")
     plt.savefig("chart.png")
-    plt.show()
 
 
 if __name__ == "__main__":
