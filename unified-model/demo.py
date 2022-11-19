@@ -6,8 +6,8 @@ from torch.utils.data import DataLoader
 from mutation_dataset import MutationDataset
 from neural_network import Net
 
-model_data_filename = './model-data/cse527_proj_data.csv'
-demo_data_filename = './model-data/demo_data.csv'
+model_data_filename = 'datasets/model-data/cse527_proj_data.csv'
+demo_data_filename = 'datasets/model-data/demo_data.csv'
 device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 
 def main():

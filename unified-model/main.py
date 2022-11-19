@@ -1,3 +1,9 @@
+# add the dataset_helper to the Python path so we can use it.
+import sys, os, inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -9,7 +15,7 @@ from dataset_helper import DataCategory
 from datasets.shuffled_mutation_dataset import ShuffledMutationDataset
 from neural_network import Net
 
-filename = 'model-data/cse527_unified_model_data.csv'
+filename = './datasets/model-data/cse527_unified_model_data.csv'
 
 device = "cpu" if torch.backends.mps.is_available() else "cuda:0" if torch.cuda.is_available() else "cpu"
 

@@ -27,7 +27,7 @@ class GranularModelMutationDataset(Dataset):
             # first col = treatment, rest of cols = mutations
 
             # get the list w/o the label data
-            mutation_csv_row_without_label = mutation_csv_row[6:]
+            mutation_csv_row_without_label = mutation_csv_row[1:]
 
             # get the label for the data.
             mutation_label = self.get_label(mutation_csv_row, use_binary_labels)
@@ -64,13 +64,13 @@ class GranularModelMutationDataset(Dataset):
     #                     if false, the labels are scoped to the drugs.
     def get_label(self, mutation_csv_row, use_binary_labels):
         if (use_binary_labels):
-            return TODO
+            return 0 if mutation_csv_row[0] == "None" else 1
         else:
             # return a set containing a label solely for the combo
-            return TODO
+            return mutation_csv_row[0]
 
     def decode_label(self, label):
         return self.label_encoder.decode_label(label, False)
 
     def get_num_acids_in_seq(self):
-        return len(self.mutations[0]['mutation_seq'][0])
+        return len(self.mutations[0][0][0])

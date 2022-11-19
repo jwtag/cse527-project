@@ -1,6 +1,7 @@
 # this file contains various values + methods + classes shared across the dataset classes
 from enum import IntEnum
 
+
 # This Enum should be used whenever labelling/referring to drug categories.
 class DataCategory(IntEnum):
     INI = 0

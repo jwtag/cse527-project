@@ -1,3 +1,9 @@
+# add the dataset_helper to the Python path so we can use it.
+import sys, os, inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -18,9 +24,9 @@ def main():
     batch_size = 128
     use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
                                # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
-    ini_filename = 'model-data/INI.csv'
-    pi_filename = 'model-data/PI.csv'
-    rti_filename = 'model-data/RTI.csv'
+    ini_filename = './datasets/model-data/IN.csv'
+    pi_filename = './datasets/model-data/PR.csv'
+    rti_filename = './datasets/model-data/RT.csv'
 
     create_and_save_nn(DataCategory.INI, ini_filename, learning_rate, momentum, batch_size, use_binary_labels)
     create_and_save_nn(DataCategory.PI, pi_filename, learning_rate, momentum, batch_size, use_binary_labels)
@@ -52,12 +58,18 @@ def create_and_save_nn(category, filename, learning_rate, momentum, batch_size, 
     net = Net(acid_seq_length)
     net.to(device)
 
+
+    # setup the loss function used to evaluate the model's accuracy.
+    criterion = nn.CrossEntropyLoss()
+    criterion.to(device)
+
+
     # setup an optimizer to speed-up the model's performance.
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
 
 
-    # Train the model + refine it.  If the model has the best accuracy seen so far on the test data, it is saved to disk.
-    train(category, trainloader, testloader, net, optimizer)
+    # Train the model + refine it.  If the model has the best accuracy seen so far on the datasets, it is saved to disk.
+    train(category, trainloader, testloader, net, criterion, optimizer)
 
 
 # Calculates the accuracy given a data loader and a neural network
@@ -81,16 +93,7 @@ def calculate_accuracy(category, loader, loader_data_type, net):
     return accuracy
 
 
-# setup the loss function used to evaluate the model's accuracy.
-def criterion(outputs, labels):
-    loss_func = nn.CrossEntropyLoss()
-    losses = 0.0
-    for i, key in enumerate(outputs):
-        losses += loss_func(outputs[key], labels[key])
-    return losses
-
-
-def train(category, trainloader, testloader, net, optimizer):
+def train(category, trainloader, testloader, net, criterion, optimizer):
     print("Starting to train")
     test_accuracies = []
     train_accuracies = []
@@ -130,8 +133,8 @@ def train(category, trainloader, testloader, net, optimizer):
                 print(i)
 
         # evaluate the training + testing accuracies of the model.
-        train_accuracy = calculate_accuracy(trainloader, "training", net)
-        test_accuracy = calculate_accuracy(testloader, "testing", net)
+        train_accuracy = calculate_accuracy(category, trainloader, "training", net)
+        test_accuracy = calculate_accuracy(category, testloader, "testing", net)
         print(train_accuracy, test_accuracy)
 
         # update stored model if new best
