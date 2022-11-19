@@ -17,6 +17,7 @@ Both model folders contain the following content:
 - `/datasets/model-data` contains the `.csv` which stores all the protein sequencing data for training/testing/etc.
 - `main.py` - This file is the PyTorch neural-network executable that builds the NN.
 - `demo.py` - This file is a demo which takes in a sample sequencing of the three proteins and attempts to classify the HIV drug usage.
+- `evaluator.py` - This file evaluates + prints out stats detailing how well the model classifies the full dataset(s).
 
 To startup the NN-training code for either model, run `main.py`.
 
@@ -40,4 +41,4 @@ Look into PyTorch positional embedding
 
 Look at class imbalance blog from Alex
 
-Evaluate demo against drug types to see if any particular type is bad
+obtain performance data

@@ -110,7 +110,7 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
     # (we do this to have a model that isn't overfit)
     best_balanced_train = 0
     best_balanced_test = 0
-    while epoch < 70 and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
+    while epoch < 1 and best_train < 100 and best_test < 100:  # loop over the dataset multiple times
         print("Epoch " + str(epoch + 1))
         for i, data in enumerate(trainloader, 0):
 
