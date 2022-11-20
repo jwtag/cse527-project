@@ -40,7 +40,7 @@ def evaluate_drug_model(filename, category):
     acid_seq_length = dataset.get_num_acids_in_seq()  # length of acid sequence being processed by neural network.
     net = Net(acid_seq_length)
     net.to(GranularConfig.device)
-    net.load_state_dict(torch.load('../{}_model_best_train.pt'.format(str(category)), map_location=GranularConfig.device))
+    net.load_state_dict(torch.load('../{}_model_best_train.pt'.format(GranularConfig.current_configuration_write_file_prefix + '_' + str(category)), map_location=GranularConfig.device))
 
     # create a dict for storing failure data.
     failure_dict = {}

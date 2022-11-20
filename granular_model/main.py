@@ -128,14 +128,14 @@ def train(category, trainloader, testloader, net, criterion, optimizer):
         # update stored model if new best
         if best_test < test_accuracy:
             best_test = test_accuracy
-            torch.save(net.state_dict(), "../{}_model_best_test.pt".format(str(category)))
+            torch.save(net.state_dict(), "../{}_model_best_test.pt".format(GranularConfig.current_configuration_write_file_prefix + '_' + str(category)))
         if best_train < train_accuracy:
             best_train = train_accuracy
-            torch.save(net.state_dict(), "../{}_model_best_train.pt".format(str(category)))
+            torch.save(net.state_dict(), "../{}_model_best_train.pt".format(GranularConfig.current_configuration_write_file_prefix + '_' + str(category)))
         if best_balanced_train <= train_accuracy and best_balanced_test <= test_accuracy:
             best_balanced_train = train_accuracy
             best_balanced_test = test_accuracy
-            torch.save(net.state_dict(), "../{}_model_best_balanced.pt".format(str(category)))
+            torch.save(net.state_dict(), "../{}_model_best_balanced.pt".format(GranularConfig.current_configuration_write_file_prefix + '_' + str(category)))
         train_accuracies.append(train_accuracy)
         test_accuracies.append(test_accuracy)
         epochs.append(epoch)

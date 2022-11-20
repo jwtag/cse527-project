@@ -3,6 +3,7 @@
 
 import torch
 
+
 class GranularConfig:
     # model configs
     batch_size = 128
@@ -11,7 +12,7 @@ class GranularConfig:
     training_data_proportion = 0.8
     testing_data_proportion = 0.2
     use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
-                               # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
+    # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
     num_training_epochs = 70
 
     # neural network configs
@@ -21,6 +22,9 @@ class GranularConfig:
 
     # eval configs
     num_results_to_print_per_dict = 10  # number of results to print per dict at end of evaluation.py.
+
+    # output file configs (adjust this to write to different files for different test cases)
+    current_configuration_write_file_prefix = "not_binary"
 
     # input filepaths (as referenced when inside the `unified_model` directory)
     ini_data_file = './datasets/model-data/IN.csv'
