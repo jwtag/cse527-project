@@ -11,7 +11,7 @@ class GranularConfig:
     learning_rate = 0.00005
     training_data_proportion = 0.8
     testing_data_proportion = 0.2
-    use_binary_labels = False  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
+    use_binary_labels = True  # if the labels should not be drug-specific, but scoped to drug-type-specific instead.
     # (ex: <drugname>101 = <drugname><drug><no drug><drug>)
     num_training_epochs = 70
 
@@ -24,7 +24,7 @@ class GranularConfig:
     num_results_to_print_per_dict = 10  # number of results to print per dict at end of evaluation.py.
 
     # output file configs (adjust this to write to different files for different test cases)
-    current_configuration_write_file_prefix = "not_binary"
+    current_configuration_write_file_prefix = "binary"
 
     # input filepaths (as referenced when inside the `unified_model` directory)
     ini_data_file = './datasets/model-data/IN.csv'

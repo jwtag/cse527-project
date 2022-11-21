@@ -1,0 +1,2670 @@
+(venv) (base) johntaggart@Johns-MacBook-Pro-8 granular_model % python ./main.py
+Starting to train
+Epoch 1
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+93.65232490835423 93.32561728395062
+Epoch 2
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.35172679915107 93.90432098765432
+Epoch 3
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 90 %
+Accuracy of the network on the DataCategory.INI testing sequences: 90 %
+90.45437005595215 90.39351851851852
+Epoch 4
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 92 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+92.33551996912985 91.76311728395062
+Epoch 5
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.3324329538877 94.19367283950618
+Epoch 6
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.41925525757283 94.1358024691358
+Epoch 7
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 91 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+91.75188114991317 91.49305555555556
+Epoch 8
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.43372564152035 94.11651234567901
+Epoch 9
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.46266640941539 94.19367283950618
+Epoch 10
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.1877291144125 93.80787037037037
+Epoch 11
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.40478487362532 93.90432098765432
+Epoch 12
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.535018329153 94.03935185185185
+Epoch 13
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.45301948678372 93.9621913580247
+Epoch 14
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.42407871888868 94.1358024691358
+Epoch 15
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.23114026625507 93.67283950617283
+Epoch 16
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 90 %
+Accuracy of the network on the DataCategory.INI testing sequences: 89 %
+90.35790082963534 89.39043209876543
+Epoch 17
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.12020065599074 93.51851851851852
+Epoch 18
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.59289986494308 94.11651234567901
+Epoch 19
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.15878834651745 93.30632716049382
+Epoch 20
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.59772332625893 94.11651234567901
+Epoch 21
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+93.80185220914528 93.20987654320987
+Epoch 22
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.63631101678564 94.1358024691358
+Epoch 23
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+93.99961412309473 93.19058641975309
+Epoch 24
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 92 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+92.5573991896585 91.16512345679013
+Epoch 25
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.54948871310052 93.90432098765432
+Epoch 26
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.41925525757283 93.78858024691358
+Epoch 27
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.17808219178082 93.40277777777777
+Epoch 28
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.51572448388964 93.84645061728395
+Epoch 29
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.21666988230754 93.59567901234568
+Epoch 30
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+93.74879413467104 93.03626543209876
+Epoch 31
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+93.72950028940768 93.17129629629629
+Epoch 32
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.47713679336292 93.9621913580247
+Epoch 33
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.5109010225738 94.00077160493827
+Epoch 34
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.6073702488906 93.9621913580247
+Epoch 35
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.44337256415204 94.00077160493827
+Epoch 36
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.53984179046884 93.75
+Epoch 37
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.50607756125795 94.17438271604938
+Epoch 38
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.51572448388964 93.69212962962963
+Epoch 39
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.36137372178275 93.65354938271605
+Epoch 40
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.23114026625507 93.59567901234568
+Epoch 41
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.56878255836388 93.90432098765432
+Epoch 42
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.20702295967587 93.38348765432099
+Epoch 43
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.535018329153 94.07793209876543
+Epoch 44
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.48196025467875 93.86574074074075
+Epoch 45
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.40960833494115 93.71141975308642
+Epoch 46
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 92 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+92.70692649044955 91.72453703703704
+Epoch 47
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.23114026625507 93.57638888888889
+Epoch 48
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.49643063862628 94.00077160493827
+Epoch 49
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.61701717152228 94.03935185185185
+Epoch 50
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.54466525178468 93.86574074074075
+Epoch 51
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 92 %
+93.76326451861856 92.99768518518519
+Epoch 52
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 91 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+91.48659077754196 91.28086419753086
+Epoch 53
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 92 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+92.09917036465367 91.10725308641975
+Epoch 54
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 91 %
+Accuracy of the network on the DataCategory.INI testing sequences: 90 %
+91.31776963148755 90.00771604938272
+Epoch 55
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.72313332047077 94.1358024691358
+Epoch 56
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.62666409415397 94.09722222222223
+Epoch 57
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.2697279567818 93.30632716049382
+Epoch 58
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.61701717152228 93.9621913580247
+Epoch 59
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 93 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+93.88385105151457 93.19058641975309
+Epoch 60
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 88 %
+Accuracy of the network on the DataCategory.INI testing sequences: 87 %
+88.88192166698823 87.42283950617283
+Epoch 61
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.655604862049 94.00077160493827
+Epoch 62
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.38066756704612 93.82716049382717
+Epoch 63
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.64595793941733 94.03935185185185
+Epoch 64
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.66042832336484 93.9621913580247
+Epoch 65
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.6073702488906 94.09722222222223
+Epoch 66
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 92 %
+Accuracy of the network on the DataCategory.INI testing sequences: 91 %
+92.69727956781787 91.68595679012346
+Epoch 67
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.66042832336484 94.02006172839506
+Epoch 68
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 93 %
+94.66525178468069 93.76929012345678
+Epoch 69
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.67489870731237 94.09722222222223
+Epoch 70
+0
+100
+Accuracy of the network on the DataCategory.INI training sequences: 94 %
+Accuracy of the network on the DataCategory.INI testing sequences: 94 %
+94.67007524599653 94.07793209876543
+Finished Training
+best train =  94.72313332047077 best test =  94.19367283950618
+Starting to train
+Epoch 1
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 85 %
+Accuracy of the network on the DataCategory.PI testing sequences: 84 %
+85.02124470649784 84.81137944686387
+Epoch 2
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 71 %
+Accuracy of the network on the DataCategory.PI testing sequences: 71 %
+71.41332089051022 71.16113342005542
+Epoch 3
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+87.12804089164139 86.96057915276285
+Epoch 4
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 86 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+86.48610433589967 86.35258186754143
+Epoch 5
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 83 %
+Accuracy of the network on the DataCategory.PI testing sequences: 83 %
+83.43337080319837 83.39743227193033
+Epoch 6
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 86 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+86.73425381945181 86.58446920423053
+Epoch 7
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+87.00926848925747 86.86443074486738
+Epoch 8
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.21782717201496 87.0680391380578
+Epoch 9
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.41790211174504 87.36214015044398
+Epoch 10
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 82 %
+Accuracy of the network on the DataCategory.PI testing sequences: 82 %
+82.77163884705932 82.73853288841129
+Epoch 11
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+87.00926848925747 86.86443074486738
+Epoch 12
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.25671099422398 87.08217860980714
+Epoch 13
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.16056190657984 87.08217860980714
+Epoch 14
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 86 %
+Accuracy of the network on the DataCategory.PI testing sequences: 85 %
+86.20896873033716 85.98212770770884
+Epoch 15
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.10612455548721 87.01430914541032
+Epoch 16
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 86 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+86.08312654209703 86.06979243255472
+Epoch 17
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.32599489561461 87.2150896442509
+Epoch 18
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 84 %
+Accuracy of the network on the DataCategory.PI testing sequences: 84 %
+84.82753257403833 84.66715683502065
+Epoch 19
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.1209711057852 87.01148125106046
+Epoch 20
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 85 %
+Accuracy of the network on the DataCategory.PI testing sequences: 85 %
+85.33726413426938 85.13941519144845
+Epoch 21
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 82 %
+Accuracy of the network on the DataCategory.PI testing sequences: 82 %
+82.79072726887102 82.77529551495957
+Epoch 22
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.46526967698148 87.32254962954585
+Epoch 23
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.45890686971092 87.32820541824557
+Epoch 24
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 86 %
+Accuracy of the network on the DataCategory.PI testing sequences: 85 %
+86.00747983343585 85.85487246196482
+Epoch 25
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.45961384829654 87.35648436174425
+Epoch 26
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 86 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+86.68547229704413 86.55053447203213
+Epoch 27
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.20227364313135 87.08500650415701
+Epoch 28
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.30125064511796 87.14722017985407
+Epoch 29
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.3217530241009 87.20660596120129
+Epoch 30
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.31821813117281 87.2405406933997
+Epoch 31
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.13793859184005 87.00299756801085
+Epoch 32
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.5225349424166 87.46394434703919
+Epoch 33
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.53738149271459 87.34517278434478
+Epoch 34
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 83 %
+Accuracy of the network on the DataCategory.PI testing sequences: 83 %
+83.40509165977363 83.35784175103218
+Epoch 35
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 84 %
+Accuracy of the network on the DataCategory.PI testing sequences: 84 %
+84.8296535097952 84.87359312256095
+Epoch 36
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.51758609231726 87.40738646004185
+Epoch 37
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.39315786124838 87.27164753124823
+Epoch 38
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 85 %
+Accuracy of the network on the DataCategory.PI testing sequences: 85 %
+85.72680933494524 85.54380408347944
+Epoch 39
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.3486182103544 87.17549912335275
+Epoch 40
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.48223716303633 87.33386120694531
+Epoch 41
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.40941836871761 87.32254962954585
+Epoch 42
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.35922288913869 87.23771279904983
+Epoch 43
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.11248736275778 87.00582546236073
+Epoch 44
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.10400361973036 87.0510717719586
+Epoch 45
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.47092550566643 87.40738646004185
+Epoch 46
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.40588347578952 87.20660596120129
+Epoch 47
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.42850679052931 87.29709858039703
+Epoch 48
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.26024588715208 87.12176913070527
+Epoch 49
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.22136206494305 87.14156439115435
+Epoch 50
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.31256230248786 87.15570386290368
+Epoch 51
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.48789299172128 87.41587014309145
+Epoch 52
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.41507419740256 87.28013121429784
+Epoch 53
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 86 %
+87.07925936923371 86.94361178666365
+Epoch 54
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.31751115258719 87.20943385555115
+Epoch 55
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.38113922529287 87.22357332730049
+Epoch 56
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.54657221432763 87.41587014309145
+Epoch 57
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.56707459331056 87.41587014309145
+Epoch 58
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.56990250765304 87.41304224874159
+Epoch 59
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.42567887618684 87.2914427916973
+Epoch 60
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.53172566402964 87.35931225609411
+Epoch 61
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.5720234434099 87.44697698094
+Epoch 62
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.32104604551529 87.12742491940502
+Epoch 63
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 79 %
+Accuracy of the network on the DataCategory.PI testing sequences: 79 %
+79.45520230192227 79.32243651377185
+Epoch 64
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.46314874122463 87.32254962954585
+Epoch 65
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.45325104102596 87.2999264747469
+Epoch 66
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.50910234928983 87.40173067134212
+Epoch 67
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.34649727459755 87.2150896442509
+Epoch 68
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.57343740058114 87.39890277699226
+Epoch 69
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.54869315008449 87.43283750919066
+Epoch 70
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.PI training sequences: 87 %
+Accuracy of the network on the DataCategory.PI testing sequences: 87 %
+87.4051764972039 87.30275436909677
+Finished Training
+best train =  87.57343740058114 best test =  87.46394434703919
+Starting to train
+Epoch 1
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.4450323966876 87.45529279880425
+Epoch 2
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 85 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 85 %
+85.29837649555255 85.3600597875407
+Epoch 3
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.75465264478417 87.88768483424973
+Epoch 4
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.4450323966876 87.49266001174398
+Epoch 5
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.36629276462855 87.28714034057546
+Epoch 6
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.80603359112777 87.78092136870762
+Epoch 7
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 74 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 74 %
+74.73125095922221 74.11519777931991
+Epoch 8
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.92414303921635 87.89035392088827
+Epoch 9
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.644550616905 87.64479795014147
+Epoch 10
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 85 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 85 %
+85.50456756594444 85.22660545561308
+Epoch 11
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.92547760925125 87.80761223509315
+Epoch 12
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.17904591588206 88.2133134041531
+Epoch 13
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.31917576954645 88.24000427053862
+Epoch 14
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 86 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 86 %
+86.93722849840853 86.80136657235894
+Epoch 15
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.44970339180975 87.43127101905728
+Epoch 16
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 86 %
+87.13808128866083 86.83873378529867
+Epoch 17
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.15502365525387 88.13590989163508
+Epoch 18
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 86 %
+87.00262243011858 86.88143917151551
+Epoch 19
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.1810477709344 88.07452089894838
+Epoch 20
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.77467119530765 87.42860193241873
+Epoch 21
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.74464336952242 87.52735813804516
+Epoch 22
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.57114926498555 87.21240591469599
+Epoch 23
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.15302180020151 88.02113916617733
+Epoch 24
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.259120117976 88.25601879036994
+Epoch 25
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.06227103782838 88.08252815886404
+Epoch 26
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.23509785734781 88.26669513692414
+Epoch 27
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.35120545038403 88.1572625847435
+Epoch 28
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+88.01155737650222 87.83964127475578
+Epoch 29
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.35387459045383 88.25334970373139
+Epoch 30
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.21507930682432 88.04249185928575
+Epoch 31
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.18972247616124 88.00245555970747
+Epoch 32
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+88.02757221692102 87.93039022046656
+Epoch 33
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.33519060996524 88.19196071104469
+Epoch 34
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.09096429357872 88.03715368600865
+Epoch 35
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.33118689986054 88.2640260502856
+Epoch 36
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.3872388413263 88.2693642235627
+Epoch 37
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.29915721902296 88.25068061709283
+Epoch 38
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.2631238280807 88.21598249079165
+Epoch 39
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.23709971240015 88.1118881118881
+Epoch 40
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+88.20773917163238 87.99444829979181
+Epoch 41
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.39057526641355 88.07185181230983
+Epoch 42
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.61077932217188 88.52292745422517
+Epoch 43
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.52536683993834 88.52826562750226
+Epoch 44
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.39591354655315 88.19462979768323
+Epoch 45
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.49841519808356 87.20706774141888
+Epoch 46
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.33185418487798 88.22132066406876
+Epoch 47
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.32025009842454 87.05759888965996
+Epoch 48
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.47239108240302 87.1670314418406
+Epoch 49
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.41126110195448 88.14658623818929
+Epoch 50
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 87 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 87 %
+87.82738671168616 87.64746703678001
+Epoch 51
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.30049178905786 88.26135696364705
+Epoch 52
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.51335570962425 88.41082581540597
+Epoch 53
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.29782264898806 88.21064431751455
+Epoch 54
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.64681271311416 88.47221480809267
+Epoch 55
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.63146515771281 88.46153846153847
+Epoch 56
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.45396734307124 88.34142956280361
+Epoch 57
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.28447694863907 88.2133134041531
+Epoch 58
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.57674778628196 88.47488389473122
+Epoch 59
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.5800842113692 88.46420754817701
+Epoch 60
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.51602484969405 88.45353120162281
+Epoch 61
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.47999145875178 88.46153846153847
+Epoch 62
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.54538539046183 88.5709710137191
+Epoch 63
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.51869398976385 88.34676773608071
+Epoch 64
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.69018623924838 88.5709710137191
+Epoch 65
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.50601557443231 88.41349490204452
+Epoch 66
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.53871254028734 88.40014946885177
+Epoch 67
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.48532973889137 88.45086211498425
+Epoch 68
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.53804525526988 88.42684033523729
+Epoch 69
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.30449549916256 88.04783003256286
+Epoch 70
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+1100
+Accuracy of the network on the DataCategory.RTI training sequences: 88 %
+Accuracy of the network on the DataCategory.RTI testing sequences: 88 %
+88.53871254028734 88.5202583675866
+Finished Training
+best train =  88.69018623924838 best test =  88.5709710137191
