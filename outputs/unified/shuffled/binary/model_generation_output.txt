@@ -1,0 +1,355 @@
+(venv) (base) johntaggart@Johns-MacBook-Pro-8 unified_model % python3 main.py
+Starting to train
+Epoch 1
+0
+Accuracy of the network on the training sequences: 95 %
+Accuracy of the network on the testing sequences: 94 %
+95.69109772423026 94.7289156626506
+Epoch 2
+0
+Accuracy of the network on the training sequences: 95 %
+Accuracy of the network on the testing sequences: 93 %
+95.2853078982597 93.79183400267738
+Epoch 3
+0
+Accuracy of the network on the training sequences: 95 %
+Accuracy of the network on the testing sequences: 93 %
+95.82496653279786 93.79183400267738
+Epoch 4
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 94 %
+96.07597054886212 94.21017402945114
+Epoch 5
+0
+Accuracy of the network on the training sequences: 95 %
+Accuracy of the network on the testing sequences: 92 %
+95.22255689424364 92.78781793842035
+Epoch 6
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 93 %
+96.81224899598394 93.64123159303882
+Epoch 7
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 93 %
+96.93356760374833 93.74163319946453
+Epoch 8
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 93 %
+96.7411311914324 93.62449799196787
+Epoch 9
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 94 %
+96.9963186077644 94.04283801874163
+Epoch 10
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 93 %
+96.2976907630522 93.28982597054886
+Epoch 11
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.18875502008032 93.55756358768407
+Epoch 12
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 91 %
+96.2976907630522 91.66666666666667
+Epoch 13
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.35609103078983 93.65796519410978
+Epoch 14
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 92 %
+97.54016064257029 92.58701472556895
+Epoch 15
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.10090361445783 93.0053547523427
+Epoch 16
+0
+Accuracy of the network on the training sequences: 95 %
+Accuracy of the network on the testing sequences: 91 %
+95.55722891566265 91.0809906291834
+Epoch 17
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 92 %
+97.28915662650603 92.41967871485944
+Epoch 18
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.28078982597054 93.0388219544846
+Epoch 19
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.59872824631861 93.0053547523427
+Epoch 20
+0
+Accuracy of the network on the training sequences: 95 %
+Accuracy of the network on the testing sequences: 90 %
+95.87098393574297 90.89692101740295
+Epoch 21
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 91 %
+96.47757697456493 91.70013386880856
+Epoch 22
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.1091030789826 93.74163319946453
+Epoch 23
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.99615127175367 93.99263721552879
+Epoch 24
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.19277108433735 93.80856760374833
+Epoch 25
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 93 %
+97.97523427041499 93.20615796519411
+Epoch 26
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.7658969210174 93.69143239625167
+Epoch 27
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.15512048192771 93.50736278447121
+Epoch 28
+0
+Accuracy of the network on the training sequences: 97 %
+Accuracy of the network on the testing sequences: 92 %
+97.70749665327979 92.03480589022757
+Epoch 29
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 94 %
+98.69477911646587 94.00937081659973
+Epoch 30
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.32245649263722 93.59103078982596
+Epoch 31
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.81191432396251 93.55756358768407
+Epoch 32
+0
+Accuracy of the network on the training sequences: 96 %
+Accuracy of the network on the testing sequences: 91 %
+96.88755020080322 91.41566265060241
+Epoch 33
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.87048192771084 93.23962516733602
+Epoch 34
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 92 %
+98.88303212851406 92.904953145917
+Epoch 35
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.42704149933066 93.0053547523427
+Epoch 36
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.0001673360107 93.89223560910308
+Epoch 37
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.90394912985275 93.0053547523427
+Epoch 38
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 92 %
+98.87466532797858 92.98862115127176
+Epoch 39
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 94 %
+98.64039491298527 94.07630522088354
+Epoch 40
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.90394912985275 93.1726907630522
+Epoch 41
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.0880187416332 93.44042838018741
+Epoch 42
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.09220214190094 93.35676037483266
+Epoch 43
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.08383534136546 93.82530120481928
+Epoch 44
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.88303212851406 93.94243641231593
+Epoch 45
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 93 %
+98.75753012048193 93.74163319946453
+Epoch 46
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.25117135207496 93.44042838018741
+Epoch 47
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 92 %
+99.07128514056225 92.95515394912985
+Epoch 48
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.05036813922356 93.25635876840695
+Epoch 49
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 92 %
+99.04618473895583 92.60374832663989
+Epoch 50
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.09638554216868 93.90896921017404
+Epoch 51
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.33065595716198 93.85876840696118
+Epoch 52
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.41850736278447 93.07228915662651
+Epoch 53
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.33902275769745 93.77510040160642
+Epoch 54
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.37248995983936 93.40696117804552
+Epoch 55
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.56910977242302 93.22289156626506
+Epoch 56
+0
+Accuracy of the network on the training sequences: 98 %
+Accuracy of the network on the testing sequences: 92 %
+98.01288487282463 92.11847389558233
+Epoch 57
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.43105756358769 93.54082998661312
+Epoch 58
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.61512717536814 93.28982597054886
+Epoch 59
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.62767737617135 93.30655957161981
+Epoch 60
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 92 %
+99.55655957161981 92.7376171352075
+Epoch 61
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.39759036144578 93.23962516733602
+Epoch 62
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.64022757697457 93.64123159303882
+Epoch 63
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.71552878179384 93.54082998661312
+Epoch 64
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.6444109772423 93.3400267737617
+Epoch 65
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.42687416331995 93.0053547523427
+Epoch 66
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.69042838018741 93.30655957161981
+Epoch 67
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.58165997322624 93.08902275769745
+Epoch 68
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 92 %
+99.50217536813922 92.95515394912985
+Epoch 69
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.77409638554217 93.74163319946453
+Epoch 70
+0
+Accuracy of the network on the training sequences: 99 %
+Accuracy of the network on the testing sequences: 93 %
+99.63604417670683 93.37349397590361
+Finished Training
+best train =  99.77409638554217 best test =  94.7289156626506
+(venv) (base) johntaggart@Johns-MacBook-Pro-8 unified_model %
