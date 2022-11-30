@@ -63,7 +63,7 @@ def evaluate_drug_model(filename, category):
 
     # finally, let's print out the results.
     print_dict_results(failure_dict, category)
-    print(str(category) + " total failures:  " + total_failures)
+    print(str(category) + " total failures:  " + str(total_failures))
 
 
 def print_dict_results(dict, category):

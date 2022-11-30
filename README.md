@@ -65,6 +65,17 @@ Both models share the same neural network architecture:
 This is an incredibly simple architecture that works fairly well.  Since we've regularly obtained >95% accuracy on the 
 `unified-model`'s training and test data, we haven't felt it necessary to improve upon this architecture.
 
-# Remaining TODOs:
+## What is the evaluator output?
 
-obtain evaluator data for all models
+The evaluator output files (found in the subdirectories of `outputs`) contain the output from running the evaluator.py 
+code on the corresponding models in the directory.
+
+This output is structured as follows:
+- For each drug type (INI/PI/RTI):
+  - Contains the 10 most-commonly mislabelled drugs for each drug type.  If there are fewer than 10 mislabelled types, all mislabelled types are printed.
+    - For the most-commonly mislabelled drugs, the top-10 most common incorrect labels are listed + their count.  If there are fewer than 10 incorrect labels for the type, all incorrect labels are printed.
+  - Prints the total number of mislabels for the drug type.
+
+NOTE:  Since our code does not include logic for handling multidrug combos of a specific type,
+we evaluate a label as "correct" if the computed label and the actual label list any common drug.  
+If there are no common drugs between the two labels, the drug is considered as mislabeled.

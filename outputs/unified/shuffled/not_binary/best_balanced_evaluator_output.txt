@@ -1,0 +1,105 @@
+DataCategory.INI:
+        RAL:
+                NA:  209
+                EVG:  2
+        NA:
+                DTG,RAL:  5
+                RAL:  127
+                EVG:  1
+        DTG,RAL:
+                NA:  20
+        EVG:
+                NA:  7
+        DTG:
+                NA:  4
+        EVG,Unknown:
+                NA:  1
+                RAL:  1
+        INI:
+                NA:  1
+        RAL,Unknown:
+                NA:  1
+        DTG,EVG:
+                NA:  1
+DataCategory.PI:
+        NA:
+                ATV,RTV:  51
+                PI:  42
+                LPV:  36
+                DRV,RTV:  5
+                LPV,PI:  1
+                DRV,LPV,PI,RTV:  1
+                APV,ATV,DRV,IDV,LPV,NFV,RTV,SQV,TPV:  1
+                APV,DRV,IDV,LPV,NFV,RTV,SQV:  1
+        PI:
+                NA:  97
+                ATV,RTV:  1
+                DRV,LPV,NFV,RTV:  1
+                APV,DRV,IDV,LPV,NFV,RTV,SQV:  1
+        ATV,RTV:
+                NA:  87
+                PI:  3
+        LPV:
+                NA:  85
+                PI:  2
+                ATV,RTV:  1
+        DRV,RTV:
+                NA:  45
+                LPV:  3
+        DRV,PI,RTV:
+                NA:  21
+        LPV,NFV:
+                NA:  18
+        DRV,LPV,NFV,RTV:
+                NA:  12
+                PI:  4
+        LPV,PI:
+                NA:  13
+        APV,DRV,IDV,LPV,NFV,RTV,SQV:
+                NA:  8
+DataCategory.RTI:
+        NA:
+                3TC,None,TDF:  17
+                FTC,None,TDF:  99
+                RTI:  22
+                3TC,AZT,FTC,RPV,TDF:  1
+                3TC,EFV,TDF:  2
+                NNRTI,NRTI:  3
+                3TC,AZT,None:  3
+                3TC,ABC,None:  1
+                EFV,FTC,TDF:  1
+                3TC,ABC,AZT,D4T,DDI,ETR,NVP,TDF:  1
+        FTC,None,TDF:
+                NA:  107
+                RTI:  2
+        RTI:
+                NA:  66
+                FTC,None,TDF:  3
+                3TC,ABC,EFV,NVP,TDF:  1
+                3TC,D4T,None:  1
+                3TC,ABC,AZT,D4T,DDC,DDI,NVP:  1
+                FTC,NNRTI,NRTI,TDF:  1
+        3TC,None,TDF:
+                NA:  33
+                NNRTI,NRTI:  2
+        3TC,ABC,None:
+                NA:  18
+                NNRTI,NRTI:  4
+        NNRTI,NRTI:
+                NA:  13
+                3TC,None,TDF:  2
+                3TC,ABC,None:  1
+        3TC,AZT,None:
+                NA:  13
+                NNRTI,NRTI:  1
+        3TC,AZT,NVP:
+                NA:  8
+                FTC,None,TDF:  2
+        NRTI,None:
+                NA:  7
+                RTI:  1
+        3TC,EFV,TDF:
+                NA:  8
+Total INI failures:  380
+Total PI failures:  600
+Total RTI failures:  556

@@ -1,0 +1,18 @@
+DataCategory.INI:
+        1:
+                0:  1299
+        0:
+                1:  99
+DataCategory.INI total failures:  1398
+DataCategory.PI:
+        1:
+                0:  19771
+        0:
+                1:  2262
+DataCategory.PI total failures:  22033
+DataCategory.RTI:
+        1:
+                0:  17763
+        0:
+                1:  3468
+DataCategory.RTI total failures:  21231

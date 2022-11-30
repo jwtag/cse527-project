@@ -1,0 +1,65 @@
+DataCategory.INI:
+        RAL:
+                NA:  10
+DataCategory.PI:
+        NA:
+                NFV:  9449
+                DRV,PI:  9
+                IDV,NFV:  12
+                LPV,RTV,SQV:  1
+                APV,ATV,DRV,IDV,LPV,RTV:  1
+        ATV,RTV:
+                IDV,NFV:  72
+                NFV:  19
+        DRV,RTV:
+                NFV:  18
+        PI:
+                NFV:  13
+        NFV:
+                PI:  6
+        IDV:
+                DRV,PI,RTV:  3
+                NFV:  2
+        LPV:
+                NFV:  4
+                IDV,NFV:  1
+        ATV,PI,RTV:
+                NFV:  2
+        APV:
+                NFV:  1
+        APV,IDV,LPV,RTV,SQV:
+                DRV,PI:  1
+DataCategory.RTI:
+        NA:
+                3TC,D4T,None:  9234
+                3TC,AZT,D4T,DDI,ETR,NVP:  60
+                NRTI,None:  9
+                3TC,D4T,EFV:  4
+                FTC,NRTI,RTI,TDF:  1
+                NRTI,RTI:  1
+        FTC,None,TDF:
+                3TC,AZT,D4T,DDI,ETR,NVP:  133
+        RTI:
+                NRTI,None:  89
+                3TC,D4T,None:  10
+        3TC,ABC,None:
+                NRTI,RTI:  22
+                FTC,NRTI,RTI,TDF:  3
+                ETR,NNRTI,NRTI:  1
+        NRTI,RTI:
+                3TC,ABC,AZT,D4T,DDC,DDI,EFV,NVP:  16
+        ETR,NNRTI,NRTI:
+                3TC,None,TDF:  1
+                3TC,D4T,None:  1
+                3TC,AZT,NVP,TDF:  7
+        NNRTI,NRTI:
+                3TC,D4T,None:  3
+        FTC,RTI,TDF:
+                3TC,ABC,AZT,D4T,EFV:  3
+        3TC,D4T,NVP:
+                NNRTI,NRTI:  1
+        EFV,FTC,RPV,TDF,Unknown:
+                3TC,AZT,D4T,NVP:  1
+Total INI failures:  10
+Total PI failures:  9616
+Total RTI failures:  9610

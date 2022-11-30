@@ -1,0 +1,172 @@
+DataCategory.INI:ntaggart@Johns-MacBook-Pro-8 granular_model % python3 ./evaluator.py
+        RAL:
+                None:  937
+                EVG:  4
+                INI:  5
+                DTG:  1
+        EVG:
+                None:  216
+                RAL:  54
+                INI:  1
+                DTG,RAL:  1
+        DTG:
+                None:  101
+                RAL:  4
+        DTG,RAL:
+                None:  55
+                EVG:  1
+                INI:  1
+        INI:
+                None:  10
+                RAL:  40
+                DTG,Unknown:  1
+        None:
+                RAL:  35
+                DTG:  2
+                EVG,RAL:  1
+                EVG:  2
+                INI:  1
+        EVG,RAL:
+                None:  25
+        DTG,EVG:
+                None:  7
+        DTG,EVG,RAL:
+                None:  3
+        RAL,Unknown:
+                None:  2
+DataCategory.INI total failures:  1514
+DataCategory.PI:
+        PI:
+                None:  12779
+                SQV:  9
+                NFV:  125
+                LPV:  54
+                IDV:  6
+                IDV,LPV,RTV,SQV:  1
+                NFV,RTV,SQV:  3
+                IDV,NFV,RTV,SQV:  14
+                APV,LPV,NFV,SQV:  1
+                APV,RTV,SQV,Unknown:  1
+        LPV:
+                None:  2699
+                PI:  269
+        None:
+                PI:  1563
+                RTV:  2
+                NFV:  20
+                LPV:  27
+                IDV:  3
+                IDV,NFV,RTV,SQV:  1
+        IDV:
+                None:  914
+                PI:  445
+                LPV:  2
+        NFV:
+                None:  874
+                PI:  476
+                SQV:  1
+                LPV:  3
+        ATV,RTV:
+                None:  417
+                PI:  58
+                LPV:  3
+                NFV:  1
+        IDV,NFV,RTV,SQV:
+                None:  88
+                PI:  342
+                PI,Unknown:  1
+        IDV,NFV:
+                PI:  242
+                None:  135
+                LPV:  1
+        IDV,RTV,SQV:
+                PI:  254
+                None:  112
+        SQV:
+                None:  200
+                PI:  113
+                NFV:  1
+DataCategory.PI total failures:  26685
+DataCategory.RTI:
+        RTI:
+                None:  4679
+                3TC,D4T,None:  15
+                NNRTI,NRTI:  2089
+                3TC,AZT,None:  61
+                3TC,AZT,D4T,DDI,None:  14
+                NNRTI,NRTI,TDF:  89
+                3TC,AZT,D4T,None:  6
+                3TC,ABC,AZT,D4T,DDI,EFV,NVP:  5
+                3TC,D4T,EFV:  85
+                3TC,D4T,NVP:  10
+        NNRTI,NRTI:
+                RTI:  2007
+                None:  4265
+                3TC,D4T,EFV:  177
+                3TC,EFV,TDF:  78
+                3TC,AZT,D4T,DDI,None:  10
+                AZT,DDI,None:  19
+                3TC,ABC,AZT,D4T,DDI,EFV,NVP:  3
+                3TC,D4T,EFV,TDF:  8
+                3TC,AZT,NVP:  28
+                3TC,D4T,NVP:  78
+        None:
+                RTI:  667
+                NNRTI,NRTI:  1452
+                FTC,NVP,TDF:  2
+                3TC,D4T,EFV:  59
+                NNRTI,NRTI,TDF:  38
+                D4T,DDI,NVP:  1
+                D4T,DDI,EFV:  5
+                3TC,EFV,TDF:  15
+                3TC,ABC,EFV:  3
+                3TC,D4T,NVP:  11
+        NNRTI,NRTI,TDF:
+                None:  1160
+                RTI:  756
+                AZT,None:  5
+                AZT,DDI,None:  10
+                3TC,AZT,None:  9
+                3TC,AZT,D4T,DDI,None:  1
+                3TC,AZT,D4T,DDC,None:  1
+                ABC,None:  1
+                3TC,ABC,EFV:  1
+                3TC,AZT,D4T,DDC,DDI,None:  1
+        3TC,D4T,NVP:
+                None:  304
+                NNRTI,NRTI:  1011
+                RTI:  105
+                EFV,FTC,TDF:  2
+                AZT,DDI,None:  2
+                NNRTI,NRTI,TDF:  1
+        3TC,AZT,EFV:
+                NNRTI,NRTI:  428
+                None:  547
+                RTI:  281
+                NVP,None:  1
+                DDI,FTC,None:  1
+        3TC,EFV,TDF:
+                None:  486
+                NNRTI,NRTI:  541
+                RTI:  64
+                AZT,None:  1
+        3TC,AZT,NVP:
+                NNRTI,NRTI:  606
+                None:  334
+                RTI:  133
+                D4T,DDI,EFV:  1
+        3TC,D4T,EFV:
+                None:  474
+                NNRTI,NRTI:  393
+                RTI:  104
+                DDI,FTC,None:  4
+                AZT,None:  1
+        EFV,FTC,TDF:
+                None:  544
+                RTI:  99
+                NNRTI,NRTI:  212
+                D4T,DDI,NVP:  1
+                3TC,AZT,NVP:  5
+                3TC,D4T,DDI,NVP:  1
+                3TC,D4T,NVP:  1
+DataCategory.RTI total failures:  34069

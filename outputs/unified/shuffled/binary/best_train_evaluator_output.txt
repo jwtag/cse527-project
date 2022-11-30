@@ -1,0 +1,18 @@
+DataCategory.INI:
+        0:
+                1:  339
+        1:
+                0:  228
+DataCategory.PI:
+        0:
+                1:  454
+        1:
+                0:  409
+DataCategory.RTI:
+        0:
+                1:  370
+        1:
+                0:  302
+Total INI failures:  567
+Total PI failures:  863
+Total RTI failures:  672

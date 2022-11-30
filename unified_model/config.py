@@ -31,6 +31,7 @@ class UnifiedConfig:
     num_results_to_print_per_dict = 10  # number of results to print per dict at end of evaluation.py.
 
     # output file configs (adjust this to write to different files for different test cases)
+    # NOTE:  MAKE SURE TO ALSO SWITCH use_binary_labels IF CHANGING BINARY/NOT_BINARY!!!
     current_configuration_write_file_prefix = "shuffled_not_binary"
 
     # input filepaths (as referenced when inside the `unified_model` directory)
