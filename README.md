@@ -67,8 +67,4 @@ This is an incredibly simple architecture that works fairly well.  Since we've r
 
 # Remaining TODOs:
 
-obtain performance data for:
-- multilabel unified model
-- single unified model
-- granular model
-- ALL THE ABOVE IN BINARY CLASSIFICATION
+obtain evaluator data for all models
